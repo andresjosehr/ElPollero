@@ -30,7 +30,7 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 	    return view('escritorio');
 	});
 	Route::get('perfil', function () {
-	    return view('perfil.perfil');
+	    return view('Perfil.perfil');
 	});
 });
 
