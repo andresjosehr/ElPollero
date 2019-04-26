@@ -47,8 +47,8 @@ window.InvarAdministrador=function(){
 			                                            '<td>'+result.nombre+'</td>'+
 			                                            '<td>'+result.email+'</td>'+
 			                                            '<td>'+
-			                                               '<button type="button" class="btn mr-1 mb-1 btn-primary btn-sm">Reenviar Email</button>'+
-			                                               '<button type="button" class="btn mr-1 mb-1 btn-danger btn-sm">Eliminar</button>'+
+			                                               '<button type="button" class="btn mr-1 mb-1 btn-primary btn-sm"><i class="icon-mail2"></i></button>'+
+			                                               '<button type="button" class="btn mr-1 mb-1 btn-danger btn-sm"><i class="icon-cross"></i></button>'+
 			                                            '</td>'+
 			                                        '</tr>');
 					$("#usuario_"+result.id).show("slow");

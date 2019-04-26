@@ -155,7 +155,7 @@ window.InvarAdministrador = function () {
           $(".InivitacionForm input").map(function (e, input) {
             $(".InivitacionForm #" + input.id).val("");
           });
-          $("#tbody_adminTemp").append('<tr id="usuario_' + result.id + '" style="display: none;">' + '<td>' + result.nombre + '</td>' + '<td>' + result.email + '</td>' + '<td>' + '<button type="button" class="btn mr-1 mb-1 btn-primary btn-sm">Reenviar Email</button>' + '<button type="button" class="btn mr-1 mb-1 btn-danger btn-sm">Eliminar</button>' + '</td>' + '</tr>');
+          $("#tbody_adminTemp").append('<tr id="usuario_' + result.id + '" style="display: none;">' + '<td>' + result.nombre + '</td>' + '<td>' + result.email + '</td>' + '<td>' + '<button type="button" class="btn mr-1 mb-1 btn-primary btn-sm"><i class="icon-mail2"></i></button>' + '<button type="button" class="btn mr-1 mb-1 btn-danger btn-sm"><i class="icon-cross"></i></button>' + '</td>' + '</tr>');
           $("#usuario_" + result.id).show("slow");
           swal("Listo!", "Invitación registrada y enviada exitosamente", "success");
         }
