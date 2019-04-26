@@ -1,3 +1,9 @@
+
+    var parts = window.location.pathname.split('/');
+    var urlPath = parts.pop() || parts.pop(); 
+
+    if (urlPath=="public") {
+
 /*=========================================================================================
     File Name: dashboard-lite.js
     Description: intialize advance cards
@@ -187,3 +193,4 @@
 
 
 })(window, document, jQuery);
+}

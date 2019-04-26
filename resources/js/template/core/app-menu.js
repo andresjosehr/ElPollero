@@ -31,10 +31,10 @@
 
       init: function() {
         var scroll_theme = ($('.main-menu').hasClass('menu-dark')) ? 'light' : 'dark';
-        this.obj = $(".main-menu-content").perfectScrollbar({
-          suppressScrollX: true,
-          theme: scroll_theme
-        });
+        // this.obj = $(".main-menu-content").perfectScrollbar({
+        //   suppressScrollX: true,
+        //   theme: scroll_theme
+        // });
       },
 
       update: function() {

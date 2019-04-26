@@ -8,6 +8,13 @@
   Author URL: http://www.themeforest.net/user/geekslabs
 ==========================================================================================*/
 
+
+
+    var parts = window.location.pathname.split('/');
+    var urlPath = parts.pop() || parts.pop(); 
+
+    if (urlPath=="public") {
+
 (function(window, document, $) {
     'use strict';
     var $html = $('html');
@@ -59,11 +66,11 @@
         });
 
         //  Notifications & messages scrollable
-        if($('.scrollable-container').length > 0){
-            $('.scrollable-container').perfectScrollbar({
-                theme:"dark"
-            });
-        }
+        // if($('.scrollable-container').length > 0){
+        //     $('.scrollable-container').perfectScrollbar({
+        //         theme:"dark"
+        //     });
+        // }
 
         // Reload Card
         $('a[data-action="reload"]').on('click',function(){
@@ -238,3 +245,5 @@
     });
 
 })(window, document, jQuery);
+
+}

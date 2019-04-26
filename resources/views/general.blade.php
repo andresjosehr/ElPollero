@@ -17,8 +17,22 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- BEGIN VENDOR CSS-->
     <link rel="stylesheet" href="{{ asset('css/template.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script>
+      var url = '{{Request::root()}}';
+  </script>
+    <script
+  src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/css/tether-theme-arrows-dark.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/css/perfect-scrollbar.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/perfect-scrollbar.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <!-- END Custom CSS-->
   </head>
   <body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
@@ -29,7 +43,7 @@
         <div class="navbar-header">
           <ul class="nav navbar-nav">
             <li class="nav-item mobile-menu hidden-md-up float-xs-left"><a class="nav-link nav-menu-main menu-toggle hidden-xs"><i class="icon-menu5 font-large-1"></i></a></li>
-            <li class="nav-item"><a href="index.html" class="navbar-brand nav-link"><img style="width: 100%;border-radius: 100%;" alt="branding logo" src="{{ asset('images/logo.jpg') }}" data-expand="{{ asset('template/logo/robust-logo-light.png') }}" data-collapse="{{ asset('template/logo/robust-logo-small.png') }}" class="brand-logo"></a></li>
+            <li class="nav-item"><a href="index.html" class="navbar-brand nav-link"><img style="width: 100%;border-radius: 100%;" alt="branding logo" src="{{ asset('images/logo.jpg') }}" data-expand="{{ asset('images/logo.jpg') }}" data-collapse="{{ asset('images/logo.jpg') }}" class="brand-logo"></a></li>
             <li class="nav-item hidden-md-up float-xs-right"><a data-toggle="collapse" data-target="#navbar-mobile" class="nav-link open-navbar-container"><i class="icon-ellipsis pe-2x icon-icon-rotate-right-right"></i></a></li>
           </ul>
         </div>
@@ -87,9 +101,9 @@
                   <li class="dropdown-menu-footer"><a href="javascript:void(0)" class="dropdown-item text-muted text-xs-center">Read all notifications</a></li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="{{ asset('template/images/portrait/small/avatar-s-1.png') }}" alt="avatar"><i></i></span><span class="user-name">Usuario</span></a>
-                <div class="dropdown-menu dropdown-menu-right"><a href="#" class="dropdown-item"><i class="icon-head"></i> Edit Profile</a><a href="#" class="dropdown-item"><i class="icon-mail6"></i> My Inbox</a><a href="#" class="dropdown-item"><i class="icon-clipboard2"></i> Task</a><a href="#" class="dropdown-item"><i class="icon-calendar5"></i> Calender</a>
-                  <div class="dropdown-divider"></div><a href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
+              <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="{{ asset('template/images/portrait/small/avatar-s-1.png') }}" alt="avatar"><i></i></span><span class="user-name">{{session()->get("nombre")}}</span></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <div class="dropdown-divider"></div><a href="CerrarSesion" class="dropdown-item"><i class="icon-power3"></i> Cerrar Sesion</a>
                 </div>
               </li>
             </ul>
@@ -111,16 +125,17 @@
       <!-- main menu content-->
       <div class="main-menu-content">
         <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
-          <li class=" nav-item"><a href="#"><i class="icon-home3"></i><span data-i18n="nav.dash.main" class="menu-title">Dashboard</span><span class="tag tag tag-primary tag-pill float-xs-right mr-2">2</span></a>
-            <ul class="menu-content">
-              <li class="active"><a href="index.html" data-i18n="nav.dash.main" class="menu-item">Dashboard</a>
-              </li>
-              <li><a href="dashboard-2.html" data-i18n="nav.dash.main" class="menu-item">Dashboard 2</a>
-              </li>
-            </ul>
+          <li class="nav-item escritorio_sidebar"><a href="{{Request::root()}}"><i class="icon-home3"></i><span data-i18n="nav.dash.main" class="menu-title">Escritorio</span></a>
           </li>
+          <li class="nav-item perfil_sidebar"><a href="perfil"><i class="icon-head"></i><span data-i18n="nav.dash.main" class="menu-title">Perfil</span></a>
+          </li>
+          @if (session()->get("rol")==1)
+            <li class="nav-item administradores_sidebar"><a href="usuarios"><i class="icon-user-tie"></i><span data-i18n="nav.dash.main" class="menu-title">Administradores</span></a>
+          </li>
+          @endif
         </ul>
       </div>
+
       <!-- /main menu content-->
       <!-- main menu footer-->
       <!-- include includes/menu-footer-->
@@ -128,156 +143,15 @@
     </div>
     <!-- / main menu-->
 
-    <div class="app-content content container-fluid">
-      <div class="content-wrapper">
-        <div class="content-header row">
-        </div>
-        <div class="content-body"><!-- stats -->
-<div class="row">
-    <div class="col-xl-3 col-lg-6 col-xs-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-block">
-                    <div class="media">
-                        <div class="media-body text-xs-left">
-                            <h3 class="pink">278</h3>
-                            <span>New Projects</span>
-                        </div>
-                        <div class="media-right media-middle">
-                            <i class="icon-bag2 pink font-large-2 float-xs-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-xs-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-block">
-                    <div class="media">
-                        <div class="media-body text-xs-left">
-                            <h3 class="teal">156</h3>
-                            <span>New Clients</span>
-                        </div>
-                        <div class="media-right media-middle">
-                            <i class="icon-user1 teal font-large-2 float-xs-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-xs-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-block">
-                    <div class="media">
-                        <div class="media-body text-xs-left">
-                            <h3 class="deep-orange">64.89 %</h3>
-                            <span>Conversion Rate</span>
-                        </div>
-                        <div class="media-right media-middle">
-                            <i class="icon-diagram deep-orange font-large-2 float-xs-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-xs-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-block">
-                    <div class="media">
-                        <div class="media-body text-xs-left">
-                            <h3 class="cyan">423</h3>
-                            <span>Support Tickets</span>
-                        </div>
-                        <div class="media-right media-middle">
-                            <i class="icon-ios-help-outline cyan font-large-2 float-xs-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/ stats -->
-<!--/ project charts -->
-<div class="row">
-    <div class="col-xl-8 col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <ul class="list-inline text-xs-center pt-2 m-0">
-                    <li class="mr-1">
-                        <h6><i class="icon-circle warning"></i> <span class="grey darken-1">Remaining</span></h6>
-                    </li>
-                    <li class="mr-1">
-                        <h6><i class="icon-circle success"></i> <span class="grey darken-1">Completed</span></h6>
-                    </li>
-                </ul>
-                <div class="chartjs height-250">
-                    <canvas id="line-stacked-area" height="250"></canvas>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-xs-3 text-xs-center">
-                        <span class="text-muted">Total Projects</span>
-                        <h2 class="block font-weight-normal">18</h2>
-                        <progress class="progress progress-xs mt-2 progress-success" value="70" max="100"></progress>
-                    </div>
-                    <div class="col-xs-3 text-xs-center">
-                        <span class="text-muted">Total Task</span>
-                        <h2 class="block font-weight-normal">125</h2>
-                        <progress class="progress progress-xs mt-2 progress-success" value="40" max="100"></progress>
-                    </div>
-                    <div class="col-xs-3 text-xs-center">
-                        <span class="text-muted">Completed Task</span>
-                        <h2 class="block font-weight-normal">242</h2>
-                        <progress class="progress progress-xs mt-2 progress-success" value="60" max="100"></progress>
-                    </div>
-                    <div class="col-xs-3 text-xs-center">
-                        <span class="text-muted">Total Revenue</span>
-                        <h2 class="block font-weight-normal">$11,582</h2>
-                        <progress class="progress progress-xs mt-2 progress-success" value="90" max="100"></progress>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-lg-12">
-        <div class="card card-inverse bg-info">
-            <div class="card-body">
-                <div class="position-relative">
-                    <div class="chart-title position-absolute mt-2 ml-2 white">
-                        <h1 class="display-4">84%</h1>
-                        <span>Employees Satisfied</span>
-                    </div>
-                    <canvas id="emp-satisfaction" class="height-400 block"></canvas>
-                    <div class="chart-stats position-absolute position-bottom-0 position-right-0 mb-2 mr-3 white">
-                        <a href="#" class="btn bg-info bg-darken-3 mr-1 white">Statistics <i class="icon-stats-bars"></i></a> for the last year.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/ project charts -->
 
 
 
-        </div>
-      </div>
-    </div>
-    <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-    <footer class="footer footer-static footer-light navbar-border" style="position: fixed;height: 50px;bottom: 0px;left: 0px;right: 0px;margin-bottom: 0px;">
-      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2019</span><span class="float-md-right d-xs-block d-md-inline-block">Diseñado con <i class="icon-heart5 pink"></i></span></p>
-    </footer>
 
-    <link rel="stylesheet" href="{{ asset('js/template.js') }}">
-  </body>
-</html>
+
+
+
+
+
+
