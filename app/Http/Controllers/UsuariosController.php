@@ -50,7 +50,7 @@ class UsuariosController extends Controller
               return $v->errors();;   
          }
 
-         $Request->merge(["confirmando_registro" => Str::random(32)]);
+         $Request->merge(["confirmando_registro" => Str::random(32), "rol" => "1"]);
          Usuarios::insert($Request->all());
 
          self::EmailInivitacion($Request->email, $Request->confirmando_registro);
@@ -99,7 +99,7 @@ class UsuariosController extends Controller
               return $v->errors();;   
          }
 
-         Usuarios::update($Request->except("_method"))->where("id", session()->get("id"));
+         Usuarios::where("id", session()->get("id"))->update($Request->except("_method"));
 
          return "Exito";
 
