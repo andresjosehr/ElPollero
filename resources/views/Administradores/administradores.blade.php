@@ -68,7 +68,7 @@
                                             <th>Email</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody_adminTemp">
+                                    <tbody>
                                        @foreach ($UsuariosRegistrados as $UsuarioRegistrado)
                                           <tr>
                                             <td>{{$UsuarioRegistrado->nombre}}</td>
