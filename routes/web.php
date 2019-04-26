@@ -21,7 +21,7 @@ Route::get('CerrarSesion', function(){
 
 
 Route::get('acceso', function () {
-	if (!session()->get("id")) { return view('acceso.login'); }
+	if (!session()->get("id")) { return view('Acceso.login'); }
 	else{ return redirect("/"); }
 });
 
