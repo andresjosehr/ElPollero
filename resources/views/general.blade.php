@@ -33,6 +33,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/css/perfect-scrollbar.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/perfect-scrollbar.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <!-- END Custom CSS-->
   </head>
   <body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
@@ -133,6 +135,10 @@
             <li class="nav-item administradores_sidebar"><a href="usuarios"><i class="icon-user-tie"></i><span data-i18n="nav.dash.main" class="menu-title">Administradores</span></a>
           </li>
           @endif
+           <li class="nav-item clientes_sidebar"><a href="clientes"><i class="icon-accessibility"></i><span data-i18n="nav.dash.main" class="menu-title">Clientes</span></a>
+          </li>
+          <li class="nav-item clientes_sidebar"><a href="ordenes"><i class="icon-cube"></i><span data-i18n="nav.dash.main" class="menu-title">Ordenes de pedidos</span></a>
+          </li>
         </ul>
       </div>
 

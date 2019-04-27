@@ -32,6 +32,12 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 	Route::get('perfil', function () {
 	    return view('Perfil.perfil');
 	});
+
+	Route::resource("clientes", "ClientesController");
+	Route::resource("ordenes", "ClientesController");
+	Route::post("clientes/listaUpdate", "ClientesController@listaUpdate");
+
+
 });
 
 
