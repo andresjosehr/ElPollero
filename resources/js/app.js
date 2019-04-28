@@ -11,3 +11,4 @@ require('./custom/perfil.js');
 require('./custom/administradores.js');
 require('./custom/registro.js');
 require('./custom/clientes.js');
+require('./custom/ordenes.js');

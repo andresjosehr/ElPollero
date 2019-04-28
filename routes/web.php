@@ -34,8 +34,10 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 	});
 
 	Route::resource("clientes", "ClientesController");
-	Route::resource("ordenes", "ClientesController");
 	Route::post("clientes/listaUpdate", "ClientesController@listaUpdate");
+
+	Route::resource("ordenes", "OrdenesController");
+	Route::post("ordenes/listaUpdate", "OrdenesController@listaUpdate");
 
 
 });

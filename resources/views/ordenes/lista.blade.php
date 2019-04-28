@@ -1,42 +1,54 @@
-<script>
-    if ($("#clientesLista-B #clientesTable").attr("id")=="clientesTable") {
-        $("#clientesLista-A").remove();
-    } else{
-    }
+
+
+
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" style="background: #ff444459" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" id="OredenesAbiertas" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Ordenes Abiertas
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+       <script>
+        if ($("#ordenesLista-B #ordenesTable").attr("id")=="ordenesTable") {
+            $("#ordenesLista-A").remove();
+        } else{
+        }
 </script>
-<div id="clientesTable" style="display: none">
+<div id="ordenesTable" style="display: none">
 <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Cedula</th>
-                <th>Direccion</th>
-                <th>Telefono</th>
-                <th>Correo</th>
+                <th>#</th>
                 <th>Productos</th>
-                <th>Negocios</th>
-                <th>Clientes</th>
+                <th>Cantidad</th>
+                <th>Fecha de Entrega</th>
+                <th>Especificaciones</th>
+                <th>Cliente</th>
                 <th>Acciones</th>
-
             </tr>
         </thead>
         <tbody>
-            @foreach ($Clientes as $Cliente)
-                <tr id="cliente_{{$Cliente->id}}">
-                    <td>{{$Cliente->nombre}}</td>
-                    <td>@if ($Cliente->cedula==null) Sin datos @else {{$Cliente->cedula}} @endif</td>
-                    <td>@if ($Cliente->direccion==null) Sin datos @else {{$Cliente->direccion}} @endif</td>
-                    <td>@if ($Cliente->telefono==null) Sin datos @else {{$Cliente->telefono}} @endif</td>
-                    <td>@if ($Cliente->correo==null) Sin datos @else {{$Cliente->correo}} @endif</td>
-                    <td>@if ($Cliente->productos==null) Sin datos @else {{$Cliente->productos}} @endif</td>
-                    <td>@if ($Cliente->tipo_negocio==null) Sin datos @else {{$Cliente->tipo_negocio}} @endif</td>
-                    <td>@if ($Cliente->tipo_cliente==null) Sin datos @else {{$Cliente->tipo_cliente}} @endif</td>
-                    <td>
-                        <a href="#" onclick=""><i class="icon-truck2 clientesIcon"></i></a>
-                        <a href="#" onclick="editClient('{{$Cliente}}')"><i class="icon-edit2 clientesIcon"></i></a>
-                        <a href="#" onclick="deleteClient('{{$Cliente->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
-                    </td>
-                </tr>
+            @foreach ($Ordenes as $Orden)
+                @if ($Orden->estado=="Abierta")
+                    <tr id="orden_{{$Orden->id}}">
+                        <td>{{$Orden->id}}</td>
+                        <td>{{$Orden->productos}}</td>
+                        <td>{{$Orden->cantidad}}</td>
+                        <td>{{$Orden->fecha_hora_entrega}}</td>
+                        <td>@if ($Orden->especificaciones==null) Sin datos @else {{$Orden->especificaciones}} @endif</td>
+                        <td>{{$Orden->Clientes->nombre}}</td>
+                        <td>
+                            <a href="#" onclick="cerrarOrder('{{$Orden->id}}')"><i class="icon-cash clientesIcon"></i></a>
+                            <a href="#" onclick="editOrder('{{$Orden}}')"><i class="icon-edit2 clientesIcon"></i></a>
+                            <a href="#" onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                        </td>
+                    </tr>
+                @endif
             @endforeach
         </tfoot>
     </table>
@@ -45,15 +57,104 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable();
-        $("#clientesTable").css("display", "block")
+        $("#ordenesTable").css("display", "block")
     } );
 </script>
 
 <style>
-    #clientesTable{
+    #ordenesTable{
         padding: 20px;
     }
     .clientesIcon{
         font-size: 25px;
     }
 </style>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" style="background: #ff444459" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Ordenes Cerradas
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+        
+
+<script>
+        if ($("#ordenesLista-B #ordenesTable").attr("id")=="ordenesCerradasTable") {
+            $("#ordenesLista-A").remove();
+        } else{
+        }
+</script>
+<div id="ordenesCerradasTable" style="display: none">
+<table id="example2" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Productos</th>
+                <th>Cantidad</th>
+                <th>Fecha de Entrega</th>
+                <th>Especificaciones</th>
+                <th>Fecha Entregada</th>
+                <th>Pago</th>
+                <th>Factura #</th>
+                <th>Receptor</th>
+                <th>Cliente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($Ordenes as $Orden)
+                @if ($Orden->estado=="Cerrada")
+                    <tr id="orden_{{$Orden->id}}">
+                        <td>{{$Orden->id}}</td>
+                        <td>{{$Orden->productos}}</td>
+                        <td>{{$Orden->cantidad}}</td>
+                        <td>{{$Orden->fecha_hora_entrega}}</td>
+                        <td>@if ($Orden->especificaciones==null) Sin datos @else {{$Orden->especificaciones}} @endif</td>
+                        <td>{{$Orden->fecha_hora_entregada}}</td>
+                        <td>{{$Orden->forma_pago}}</td>
+                        <td>{{$Orden->numero_factura}}</td>
+                        <td>{{$Orden->receptor}}</td>
+                        <td>{{$Orden->Clientes->nombre}}</td>
+                        <td>
+                            <a href="#" onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#example2').DataTable();
+        $("#ordenesCerradasTable").css("display", "block")
+        $("#OredenesAbiertas").click()
+    } );
+</script>
+
+<style>
+    #ordenesCerradasTable, #accordion{
+        padding: 20px;
+    }
+    .clientesIcon{
+        font-size: 25px;
+    }
+</style>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

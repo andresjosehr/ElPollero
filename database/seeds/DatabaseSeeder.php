@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         			DB::table('usuarios')->delete();
+                    DB::table('clientes')->delete();
+                    DB::table('ordenes')->delete();
 
 
 
@@ -47,6 +49,17 @@ class DatabaseSeeder extends Seeder
                             'tipo_negocio'    => $faker->randomElement(array ('Colmado','Pollera','Restaurant')),
                             'tipo_cliente'    => $faker->randomElement(array ('Fisico personal','Juridico empresa')),
                             'id_usuario'    => "1"
+                        ]);
+                    }
+
+
+                     foreach (range(1,10) as $index) {
+                        DB::table("ordenes")->insert([
+                            'productos'   => $faker->randomElement(array ('Muslo','Pechuga','Alitas', 'Pescuezo', 'Pollo Entero')),
+                            'cantidad'    => $faker->numberBetween(1, 10)." Kilos",
+                            'fecha_hora_entrega'    => $faker->date($format = 'Y-m-d', $min = 'now')." ".$faker->time($format = 'H:i:s', $min = 'now'),
+                            'especificaciones'    => $faker->sentence,
+                            'id_cliente'    => $faker->numberBetween(1, 10),
                         ]);
                     }
     }

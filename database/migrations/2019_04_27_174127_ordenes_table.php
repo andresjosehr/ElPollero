@@ -17,13 +17,14 @@ class OrdenesTable extends Migration
             $table->increments('id');
             $table->string('productos')->nullable();
             $table->string('cantidad')->nullable();
-            $table->string('hora_entrega')->nullable();
+            $table->string('fecha_hora_entrega')->nullable();
+            $table->string('fecha_hora_entregada')->nullable();
             $table->string('forma_pago')->nullable();
             $table->string('numero_factura')->nullable();
             $table->string('especificaciones')->nullable();
-            $table->string('estado')->nullable();
+            $table->string('estado')->nullable()->default("Abierta");
             $table->string('id_cliente')->nullable();
-            $table->integer('receptor');
+            $table->integer('receptor')->nullable();
             $table->string('tipo_cliente')->nullable();
             $table->timestamps();
         });
