@@ -139,6 +139,8 @@
           </li>
           <li class="nav-item clientes_sidebar"><a href="ordenes"><i class="icon-cube"></i><span data-i18n="nav.dash.main" class="menu-title">Ordenes de pedidos</span></a>
           </li>
+          <li class="nav-item clientes_sidebar"><a href="pedidos"><i class="icon-list"></i><span data-i18n="nav.dash.main" class="menu-title">Pedidos de clientes</span></a>
+          </li>
         </ul>
       </div>
 

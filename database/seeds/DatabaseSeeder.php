@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
                     DB::table('clientes')->delete();
                     DB::table('ordenes')->delete();
 
+                    DB::select("ALTER TABLE sys_poll_usuarios AUTO_INCREMENT = 1;");
+                    DB::select("ALTER TABLE sys_poll_clientes AUTO_INCREMENT = 1;");
+                    DB::select("ALTER TABLE sys_poll_ordenes AUTO_INCREMENT = 1;");
+
 
 
                      DB::table("usuarios")->insert([
@@ -53,12 +57,26 @@ class DatabaseSeeder extends Seeder
                     }
 
 
-                     foreach (range(1,10) as $index) {
+                    foreach (range(1,10) as $index) {
                         DB::table("ordenes")->insert([
                             'productos'   => $faker->randomElement(array ('Muslo','Pechuga','Alitas', 'Pescuezo', 'Pollo Entero')),
                             'cantidad'    => $faker->numberBetween(1, 10)." Kilos",
                             'fecha_hora_entrega'    => $faker->date($format = 'Y-m-d', $min = 'now')." ".$faker->time($format = 'H:i:s', $min = 'now'),
                             'especificaciones'    => $faker->sentence,
+                            'id_cliente'    => $faker->numberBetween(1, 10),
+                        ]);
+                    }
+
+
+
+                    foreach (range(1,10) as $index) {
+                        DB::table("pedidos")->insert([
+                            'productos'   => $faker->randomElement(array ('Muslo','Pechuga','Alitas', 'Pescuezo', 'Pollo Entero')),
+                            'cantidad'    => $faker->numberBetween(1, 10)." Kilos",
+                            'periodicidad'    => $faker->randomElement(array ('Lunes','Martes','Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')),
+                            'especificaciones'    => $faker->sentence,
+                            'observaciones'    => $faker->sentence,
+                            'tipo_pago'    => $faker->randomElement(array ('Efectivo','Cheque','Tarjeta de credito', 'Tarjeta de debito')),
                             'id_cliente'    => $faker->numberBetween(1, 10),
                         ]);
                     }

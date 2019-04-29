@@ -40,6 +40,10 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 	Route::post("ordenes/listaUpdate", "OrdenesController@listaUpdate");
 
 
+	Route::resource("pedidos", "PedidosController");
+	Route::post("pedidos/listaUpdate", "PedidosController@listaUpdate");
+
+
 });
 
 
