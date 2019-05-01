@@ -13,3 +13,5 @@ require('./custom/registro.js');
 require('./custom/clientes.js');
 require('./custom/ordenes.js');
 require('./custom/pedidos.js');
+require('./custom/escritorio.js');
+require('./custom/email-cliente.js');

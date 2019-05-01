@@ -25,10 +25,11 @@ Route::get('acceso', function () {
 	else{ return redirect("/"); }
 });
 
+
 Route::group(['middleware' => ['VerificarSesion']], function () {
-	Route::get('/', function () {
-	    return view('escritorio');
-	});
+
+	Route::resource("/", "DashboardCrontroller");
+	
 	Route::get('perfil', function () {
 	    return view('Perfil.perfil');
 	});
@@ -42,6 +43,13 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 
 	Route::resource("pedidos", "PedidosController");
 	Route::post("pedidos/listaUpdate", "PedidosController@listaUpdate");
+
+
+	Route::post("llamadoPedidos", "DashboardCrontroller@llamadoPedidos");
+
+	Route::get("email-clientes", "ClientesController@emailCliente");
+	Route::post("email-clientes", "ClientesController@emailCliente2");
+
 
 
 });
@@ -62,3 +70,19 @@ Route::post('usuarios/createSeller', "LoginRegisterResetController@createSeller"
 
 Route::get('registro/', "LoginRegisterResetController@showFormSeller");
 Route::get('registro/{codigo}', "UsuariosController@showFormAdmin");
+
+Route::get("registrar-pedido-public", function(){
+	return view("pedidos.crearPublico");
+});
+
+Route::post("registrar-pedido-public2", "ClientesController@registrarPedidoPublic");
+
+
+Route::get("satisfaccion", function(){
+	return view("email.ordenCerrada");
+});
+
+Route::get("satisfaccion/{orden}/{satisfaccion}", "OrdenesController@satisfaccion");
+
+
+Route::resource("metas", "MetasController");

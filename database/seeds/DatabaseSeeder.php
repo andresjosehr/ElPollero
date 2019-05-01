@@ -15,10 +15,12 @@ class DatabaseSeeder extends Seeder
         			DB::table('usuarios')->delete();
                     DB::table('clientes')->delete();
                     DB::table('ordenes')->delete();
+                    DB::table('metas')->delete();
 
                     DB::select("ALTER TABLE sys_poll_usuarios AUTO_INCREMENT = 1;");
                     DB::select("ALTER TABLE sys_poll_clientes AUTO_INCREMENT = 1;");
                     DB::select("ALTER TABLE sys_poll_ordenes AUTO_INCREMENT = 1;");
+                    DB::select("ALTER TABLE sys_poll_metas AUTO_INCREMENT = 1;");
 
 
 
@@ -78,6 +80,16 @@ class DatabaseSeeder extends Seeder
                             'observaciones'    => $faker->sentence,
                             'tipo_pago'    => $faker->randomElement(array ('Efectivo','Cheque','Tarjeta de credito', 'Tarjeta de debito')),
                             'id_cliente'    => $faker->numberBetween(1, 10),
+                        ]);
+                    }
+
+
+                    foreach (range(1,50) as $index) {
+                        DB::table("metas")->insert([
+                            'id_usuario'   => $faker->numberBetween(1, 10),
+                            'tipo'    => $faker->randomElement(array ('Muslo','Pechuga','Alitas', 'Pescuezo', 'Pollo Entero')),
+                            'periodo'    => $faker->randomElement(array ('Diario','Semanal','Mensual', 'Trimestral', 'Semestral', 'Anual')),
+                            'cantidad'    => $faker->numberBetween(1, 10),
                         ]);
                     }
     }

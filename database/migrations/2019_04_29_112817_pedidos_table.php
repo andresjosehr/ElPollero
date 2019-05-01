@@ -21,6 +21,7 @@ class PedidosTable extends Migration
             $table->string('tipo_pago')->nullable();
             $table->string('observaciones')->nullable();
             $table->string('especificaciones')->nullable();
+            $table->string('llamado')->nullable()->default("No");
             $table->string('id_cliente')->nullable();
             $table->timestamps();
         });
@@ -33,6 +34,6 @@ class PedidosTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('pedidos');
     }
 }

@@ -25,7 +25,8 @@ window.InvarAdministrador=function(){
 			$.ajax({
 		      type: 'POST',
 		      url: url+"/usuarios",
-		      data: Data,
+					data: Data,
+					headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 
 		      	$(".invitarAdministrador_loading").hide(200, function(){
@@ -73,7 +74,8 @@ window.EliminarAdministrado=function(id){
 
           $.ajax({
 		      type: 'DELETE',
-		      url: url+"/usuarios/"+id,
+					url: url+"/usuarios/"+id,
+					headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 		      	console.log(result);
 		       }

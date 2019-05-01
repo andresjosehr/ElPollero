@@ -38,7 +38,7 @@
              <div class="form-group">
                 <label for="timesheetinput2">Fecha y hora para entregar</label>
                 <div class="position-relative has-icon-left">
-                    <input type="text" id="fecha_hora_entrega" class="form-control" placeholder="Fecha y hora pautada para la entrega del producto">
+                    <input type="datetime-local" id="fecha_hora_entrega" class="form-control" placeholder="Fecha y hora pautada para la entrega del producto">
                     <div class="form-control-position">
                         <i class="icon-calendar"></i>
                     </div>

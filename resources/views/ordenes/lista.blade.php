@@ -19,7 +19,7 @@
         } else{
         }
 </script>
-<div id="ordenesTable" style="display: none">
+<div id="ordenesTable" style="display: none;  overflow-x: auto;">
 <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
@@ -94,7 +94,7 @@
         } else{
         }
 </script>
-<div id="ordenesCerradasTable" style="display: none">
+<div id="ordenesCerradasTable" style="display: none; overflow-x: auto;">
 <table id="example2" class="display" style="width:100%">
         <thead>
             <tr>
@@ -108,6 +108,7 @@
                 <th>Factura #</th>
                 <th>Receptor</th>
                 <th>Cliente</th>
+                <th>Satisfaccion</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -125,6 +126,7 @@
                         <td>{{$Orden->numero_factura}}</td>
                         <td>{{$Orden->receptor}}</td>
                         <td>{{$Orden->Clientes->nombre}}</td>
+                        <td>@if ($Orden->satisfaccion==null) Sin datos @else {{$Orden->satisfaccion}} @endif</td>
                         <td>
                             <a href="#" onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                         </td>

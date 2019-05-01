@@ -20,11 +20,12 @@ window.guardarOrden=function(){
 		$.ajax({
 		    type: 'POST',
 		    url: url+"/ordenes",
-		    data: Data,
+				data: Data,
+				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		    success: function(result){
 
 		    	if (result=="Exito") {
-		    		// $("#clientesLista-B").load(url+"/clientes/listaUpdate", {Data: "Ejemplo"});
+		    		 $("#ordenesLista-B").load(url+"/ordenes/listaUpdate", {Data: "Ejemplo"});
 
 		    		swal("¡Listo!", "Orden registrado satisfactoriamente!", "success");
 		    		$("#crearOrdenPedido input").map(function(){
@@ -51,7 +52,7 @@ window.editOrder=function(orden){
 		$("#editarOrdenPedido #"+key).val(orden[key]);
 	}
 	$("#editarOrdenPedido").css("display", "block")
-	$("#cerrarOrdenUpdate").css("display", "none")
+	$(".cerrarOrdenUpdateDefin").css("display", "none")
 
 	$("#editarOrden_btn").click();
 
@@ -81,7 +82,8 @@ window.updaterOrden=function(){
 		$.ajax({
 		    type: 'PUT',
 		    url: url+"/ordenes/"+Data.id,
-		    data: Data,
+				data: Data,
+				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		    success: function(result){
 
 		    	if (result=="Exito") {
@@ -113,7 +115,8 @@ window.deleteOrder=function(id){
 	  });
 	  $.ajax({
 	    type: 'DELETE',
-	    url: url+"/ordenes/"+id,
+			url: url+"/ordenes/"+id,
+			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 	    success: function(result){
 	    	console.log(result);
 	    }
@@ -127,6 +130,7 @@ window.deleteOrder=function(id){
 window.cerrarOrder=function(id){
 
 
+
 	$("#cerrarOrdenUpdate #id").val(id);
 	$("#editarOrdenPedido").css("display", "none")
 	$("#cerrarOrdenUpdate").css("display", "block")
@@ -138,23 +142,22 @@ window.cerrrarOrdenUpdate=function(){
 
 
 		var val=0, Data={};
-	$("#cerrarOrdenUpdate small").remove()
-	$("#eeeeeeeeeeaaaaaaaa input, #eeeeeeeeeeaaaaaaaa select").map(function(){
-		$("#cerrarOrdenUpdate #"+this.id).removeClass("border-danger");
-			if (this.value=="") {
-				console.log(this.id)
-				console.log(this.value)
+	$(".cerrarOrdenUpdateDefin small").remove()
+	$(".cerrarOrdenUpdateDefin input, .cerrarOrdenUpdateDefin select").map(function(){
 
-				$("#cerrarOrdenUpdate #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
-				$("#cerrarOrdenUpdate #"+this.id).addClass("border-danger")
+		$(".cerrarOrdenUpdateDefin #"+this.id).removeClass("border-danger");
+			if (this.value=="") {
+
+				$(".cerrarOrdenUpdateDefin #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
+				$(".cerrarOrdenUpdateDefin #"+this.id).addClass("border-danger")
 				val++;
 			}
 		Data[this.id]=this.value;
 	})
 
 	if (val==0) {
-		$(".editarOrden_btn").hide(200, function(){
-			$(".editarOrden_loading").show(200);
+		$(".cerrarOrdenUpdateDefin .editarOrden_btn").hide(200, function(){
+			$(".cerrarOrdenUpdateDefin .editarOrden_loading").show(200);
 		});
 
 		Data._method="POST";
@@ -162,7 +165,8 @@ window.cerrrarOrdenUpdate=function(){
 		$.ajax({
 		    type: 'PUT',
 		    url: url+"/ordenes/"+Data.id,
-		    data: Data,
+				data: Data,
+				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		    success: function(result){
 
 		    	if (result=="Exito") {
@@ -175,8 +179,8 @@ window.cerrrarOrdenUpdate=function(){
 				})
 		    	}
 
-		    	$(".editarOrden_loading").hide(200, function(){
-					$(".editarOrden_btn").show(200);
+		    	$(".cerrarOrdenUpdateDefin .editarOrden_loading").hide(200, function(){
+					$(".cerrarOrdenUpdateDefin .editarOrden_btn").show(200);
 				});
 
 			}

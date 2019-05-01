@@ -16,3 +16,8 @@ window.onload=function(){
 		$(".perfil_sidebar").addClass("active");
 	}
 }
+
+window.onload=function(){
+	$("html").removeClass("loading");
+	$("html").addClass("loaded");
+}

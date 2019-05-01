@@ -51,7 +51,7 @@
                      <div class="form-group">
                         <label for="timesheetinput2">Fecha y hora para entregar</label>
                         <div class="position-relative has-icon-left">
-                           <input type="text" id="fecha_hora_entrega" class="form-control" placeholder="Fecha y hora pautada para la entrega del producto">
+                           <input type="datetime-local" id="fecha_hora_entrega" class="form-control" placeholder="Fecha y hora pautada para la entrega del producto">
                            <div class="form-control-position">
                               <i class="icon-calendar"></i>
                            </div>
@@ -85,14 +85,14 @@
                   </div>
                </div>
             </div>
-            <div id="cerrarOrdenUpdate">
+            <div id="cerrarOrdenUpdate" class='cerrarOrdenUpdateDefin'>
                <input type="hidden" id="id">
                <div class="form-body">
                   <div class="form-group">
                      <div class="col-md-6">
                         <label for="timesheetinput1">Fecha y Hora Entregada</label>
                         <div class="position-relative has-icon-left nombre_parent">
-                           <input type="text" id="fecha_hora_entregada" class="form-control" placeholder="Fecha y hora en la que se entrego el producto">
+                           <input type="datetime-local" id="fecha_hora_entregada" class="form-control" placeholder="Fecha y hora en la que se entrego el producto">
                            <div class="form-control-position">
                               <i class="icon-bag"></i>
                            </div>
@@ -150,3 +150,13 @@
       </div>
    </div>
 </div>
+
+<script>
+      var url = '{{Request::root()}}';
+
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  </script>

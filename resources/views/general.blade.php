@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script>
       var url = '{{Request::root()}}';
+
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
   </script>
     <script
   src="https://code.jquery.com/jquery-3.4.0.min.js"
@@ -140,6 +146,10 @@
           <li class="nav-item clientes_sidebar"><a href="ordenes"><i class="icon-cube"></i><span data-i18n="nav.dash.main" class="menu-title">Ordenes de pedidos</span></a>
           </li>
           <li class="nav-item clientes_sidebar"><a href="pedidos"><i class="icon-list"></i><span data-i18n="nav.dash.main" class="menu-title">Pedidos de clientes</span></a>
+          </li>
+          <li class="nav-item clientes_sidebar"><a href="email-clientes"><i class="icon-mail2"></i><span data-i18n="nav.dash.main" class="menu-title">Envios de email</span></a>
+          </li>
+          <li class="nav-item clientes_sidebar"><a href="metas"><i class="icon-flag2"></i><span data-i18n="nav.dash.main" class="menu-title">Metas de Vendedores</span></a>
           </li>
         </ul>
       </div>

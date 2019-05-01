@@ -4,7 +4,8 @@
     } else{
     }
 </script>
-<div id="pedidosListaTable" style="display: none">
+
+<div id="pedidosListaTable" style="display: none; overflow-x: auto;">
 <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
@@ -30,7 +31,7 @@
                     <td>@if ($Pedido->observaciones==null) Sin datos @else {{$Pedido->observaciones}} @endif</td>
                     <td>{{$Pedido->clientes->nombre}}</td>
                     <td>
-                        <a href="#" onclick=""><i class="icon-truck2 clientesIcon"></i></a>
+                        <!-- <a href="#" onclick=""><i class="icon-truck2 clientesIcon"></i></a> -->
                         <a href="#" onclick="editPedido('{{$Pedido}}')"><i class="icon-edit2 clientesIcon"></i></a>
                         <a href="#" onclick="deletePedido('{{$Pedido->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                     </td>

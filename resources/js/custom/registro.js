@@ -28,7 +28,8 @@ window.RegistroAdmin=function(){
 			$.ajax({
 		      type: 'POST',
 		      url: url+"/usuarios/createAdmin",
-		      data: Data,
+			  data: Data,
+			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 		      	if (result=="Exito") {
 		      		swal("¡Listo!", "Registro Exitoso, ahora estas siendo redirigido", "success")
@@ -69,7 +70,8 @@ window.RegistroVendedor=function(){
 			$.ajax({
 		      type: 'POST',
 		      url: url+"/usuarios/createSeller",
-		      data: Data,
+			  data: Data,
+			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 		      	console.log(result)
 		      	if (result=="Exito") {
@@ -109,7 +111,8 @@ window.resetearPass=function(){
 		$.ajax({
 		      type: 'POST',
 		      url: url+"/usuarios/resetPass",
-		      data: Data,
+			  data: Data,
+			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 		      	if (result=="Exito") {
 		      		swal("¡Listo!", "Hemos enviado un email a tu correo para el cambio de contraseña", "success")
@@ -167,7 +170,8 @@ window.resetearPass=function(){
 		$.ajax({
 		      type: 'POST',
 		      url: url+"/resetear-contrasena/"+urlPath,
-		      data: Data,
+			  data: Data,
+			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 		      	if (result=="Exito") {
 		      		swal("¡Listo!", "Contraseña Actualizada exitosamente", "success")

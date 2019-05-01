@@ -28,7 +28,8 @@ window.guardarCliente=function(){
 					$.ajax({
 				      type: 'POST',
 				      url: url+"/clientes",
-				      data: Data,
+							data: Data,
+							headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 				      success: function(result){
 
 				      	if (result=="Exito") {
@@ -59,7 +60,8 @@ window.deleteClient=function(id){
 	  });
 	  $.ajax({
 	    type: 'DELETE',
-	    url: url+"/clientes/"+id,
+			url: url+"/clientes/"+id,
+			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 	    success: function(result){
 	    	console.log(result);
 	    }
@@ -125,7 +127,8 @@ window.updateCliente=function(){
 					$.ajax({
 				      type: 'PATCH',
 				      url: url+"/clientes/"+Data.id,
-				      data: Data,
+							data: Data,
+							headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 				      success: function(result){
 
 				      	if (result=="Exito") {

@@ -114,6 +114,10 @@ __webpack_require__(/*! ./custom/ordenes.js */ "./resources/js/custom/ordenes.js
 
 __webpack_require__(/*! ./custom/pedidos.js */ "./resources/js/custom/pedidos.js");
 
+__webpack_require__(/*! ./custom/escritorio.js */ "./resources/js/custom/escritorio.js");
+
+__webpack_require__(/*! ./custom/email-cliente.js */ "./resources/js/custom/email-cliente.js");
+
 /***/ }),
 
 /***/ "./resources/js/custom/administradores.js":
@@ -147,6 +151,9 @@ window.InvarAdministrador = function () {
       type: 'POST',
       url: url + "/usuarios",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         $(".invitarAdministrador_loading").hide(200, function () {
           $(".inivitarAdministrador_btn").show(200);
@@ -184,6 +191,9 @@ window.EliminarAdministrado = function (id) {
     $.ajax({
       type: 'DELETE',
       url: url + "/usuarios/" + id,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         console.log(result);
       }
@@ -225,6 +235,9 @@ window.guardarCliente = function () {
       type: 'POST',
       url: url + "/clientes",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
           $("#clientesLista-B").load(url + "/clientes/listaUpdate", {
@@ -253,6 +266,9 @@ window.deleteClient = function (id) {
     $.ajax({
       type: 'DELETE',
       url: url + "/clientes/" + id,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         console.log(result);
       }
@@ -303,6 +319,9 @@ window.updateCliente = function () {
       type: 'PATCH',
       url: url + "/clientes/" + Data.id,
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
           $("#clientesLista-B").load(url + "/clientes/listaUpdate", {
@@ -317,6 +336,143 @@ window.updateCliente = function () {
       }
     });
   }
+};
+
+/***/ }),
+
+/***/ "./resources/js/custom/email-cliente.js":
+/*!**********************************************!*\
+  !*** ./resources/js/custom/email-cliente.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var parts = window.location.pathname.split('/');
+  var urlPath = parts.pop() || parts.pop(); // handle potential trailing slash
+
+  if (urlPath == "email-clientes") {
+    /**
+    * Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+    * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+    */
+
+    /* exported initSample */
+    if (CKEDITOR.env.ie && CKEDITOR.env.version < 9) CKEDITOR.tools.enableHtml5Elements(document); // The trick to keep the editor in the sample quite small
+    // unless user specified own height.
+
+    CKEDITOR.config.height = 150;
+    CKEDITOR.config.width = 'auto';
+
+    window.initSample = function () {
+      var wysiwygareaAvailable = isWysiwygareaAvailable(),
+          isBBCodeBuiltIn = !!CKEDITOR.plugins.get('bbcode');
+      return function () {
+        var editorElement = CKEDITOR.document.getById('editor'); // :(((
+
+        if (isBBCodeBuiltIn) {
+          editorElement.setHtml('Hello world!\n\n' + 'I\'m an instance of [url=https://ckeditor.com]CKEditor[/url].');
+        } // Depending on the wysiwygarea plugin availability initialize classic or inline editor.
+
+
+        if (wysiwygareaAvailable) {
+          CKEDITOR.replace('editor');
+        } else {
+          editorElement.setAttribute('contenteditable', 'true');
+          CKEDITOR.inline('editor'); // TODO we can consider displaying some info box that
+          // without wysiwygarea the classic editor may not work.
+        }
+      };
+
+      function isWysiwygareaAvailable() {
+        // If in development mode, then the wysiwygarea must be available.
+        // Split REV into two strings so builder does not replace it :D.
+        if (CKEDITOR.revision == '%RE' + 'V%') {
+          return true;
+        }
+
+        return !!CKEDITOR.plugins.get('wysiwygarea');
+      }
+    }();
+  }
+});
+
+window.enviarEmail = function () {
+  var Data = {};
+  var i = 0;
+  $("input:checkbox").map(function () {
+    if ($(this).is(':checked')) {
+      Data[i] = $(this).val();
+      i++;
+    }
+  });
+  Data.content = CKEDITOR.instances.editor.getData();
+
+  if (i == 0) {
+    swal("Espera!", "Debes seleccionar al menos un destinatario", "warning");
+  } else {
+    if (Data.content == "") {
+      swal("Espera!", "Tu email debe tener un mensaje", "warning");
+    } else {
+      $(".crearMail_btn").hide("slow", function () {
+        $(".crearMail_loading").show("slow");
+      });
+      $.ajax({
+        type: 'POST',
+        url: url + "/email-clientes",
+        data: Data,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function success(result) {
+          console.log(result);
+          if (result == "Exito") $(".crearMail_loading").hide("slow", function () {
+            $(".crearMail_btn").show("slow");
+          });
+          swal("Listo!", "Los email han sido enviados exitosamente", "success");
+        }
+      });
+    }
+  }
+};
+
+$(document).ready(function () {
+  $("html").removeClass("loading");
+  $("html").removeClass("loaded");
+});
+
+/***/ }),
+
+/***/ "./resources/js/custom/escritorio.js":
+/*!*******************************************!*\
+  !*** ./resources/js/custom/escritorio.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.PedidoLlamado = function () {
+  $('input:checkbox').change(function () {
+    var Data = {};
+
+    if ($(this).is(':checked')) {
+      var llamado = "Si";
+    } else {
+      var llamado = "No";
+    }
+
+    $("#span_" + $(this).val()).text(" " + llamado);
+    Data.llamado = llamado;
+    Data.id = $(this).val();
+    $.ajax({
+      type: 'POST',
+      url: url + "/llamadoPedidos",
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: Data,
+      success: function success(result) {}
+    });
+  });
 };
 
 /***/ }),
@@ -344,6 +500,11 @@ window.onload = function () {
   if (urlPath == "perfil") {
     $(".perfil_sidebar").addClass("active");
   }
+};
+
+window.onload = function () {
+  $("html").removeClass("loading");
+  $("html").addClass("loaded");
 };
 
 /***/ }),
@@ -375,6 +536,9 @@ window.login_ingreso = function () {
       type: 'POST',
       url: url + "/login",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         $(".login_loading").hide(200, function () {
           $(".btn_login").show(200);
@@ -429,9 +593,14 @@ window.guardarOrden = function () {
       type: 'POST',
       url: url + "/ordenes",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
-          // $("#clientesLista-B").load(url+"/clientes/listaUpdate", {Data: "Ejemplo"});
+          $("#ordenesLista-B").load(url + "/ordenes/listaUpdate", {
+            Data: "Ejemplo"
+          });
           swal("¡Listo!", "Orden registrado satisfactoriamente!", "success");
           $("#crearOrdenPedido input").map(function () {
             $(this).val("");
@@ -454,7 +623,7 @@ window.editOrder = function (orden) {
   }
 
   $("#editarOrdenPedido").css("display", "block");
-  $("#cerrarOrdenUpdate").css("display", "none");
+  $(".cerrarOrdenUpdateDefin").css("display", "none");
   $("#editarOrden_btn").click();
 };
 
@@ -485,6 +654,9 @@ window.updaterOrden = function () {
       type: 'PUT',
       url: url + "/ordenes/" + Data.id,
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
           $("#ordenesLista-B").load(url + "/ordenes/listaUpdate", {
@@ -513,6 +685,9 @@ window.deleteOrder = function (id) {
     $.ajax({
       type: 'DELETE',
       url: url + "/ordenes/" + id,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         console.log(result);
       }
@@ -530,15 +705,13 @@ window.cerrarOrder = function (id) {
 window.cerrrarOrdenUpdate = function () {
   var val = 0,
       Data = {};
-  $("#cerrarOrdenUpdate small").remove();
-  $("#eeeeeeeeeeaaaaaaaa input, #eeeeeeeeeeaaaaaaaa select").map(function () {
-    $("#cerrarOrdenUpdate #" + this.id).removeClass("border-danger");
+  $(".cerrarOrdenUpdateDefin small").remove();
+  $(".cerrarOrdenUpdateDefin input, .cerrarOrdenUpdateDefin select").map(function () {
+    $(".cerrarOrdenUpdateDefin #" + this.id).removeClass("border-danger");
 
     if (this.value == "") {
-      console.log(this.id);
-      console.log(this.value);
-      $("#cerrarOrdenUpdate #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
-      $("#cerrarOrdenUpdate #" + this.id).addClass("border-danger");
+      $(".cerrarOrdenUpdateDefin #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
+      $(".cerrarOrdenUpdateDefin #" + this.id).addClass("border-danger");
       val++;
     }
 
@@ -546,8 +719,8 @@ window.cerrrarOrdenUpdate = function () {
   });
 
   if (val == 0) {
-    $(".editarOrden_btn").hide(200, function () {
-      $(".editarOrden_loading").show(200);
+    $(".cerrarOrdenUpdateDefin .editarOrden_btn").hide(200, function () {
+      $(".cerrarOrdenUpdateDefin .editarOrden_loading").show(200);
     });
     Data._method = "POST";
     Data.estado = "Cerrada";
@@ -555,6 +728,9 @@ window.cerrrarOrdenUpdate = function () {
       type: 'PUT',
       url: url + "/ordenes/" + Data.id,
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
           $("#ordenesLista-B").load(url + "/ordenes/listaUpdate", {
@@ -569,8 +745,8 @@ window.cerrrarOrdenUpdate = function () {
           });
         }
 
-        $(".editarOrden_loading").hide(200, function () {
-          $(".editarOrden_btn").show(200);
+        $(".cerrarOrdenUpdateDefin .editarOrden_loading").hide(200, function () {
+          $(".cerrarOrdenUpdateDefin .editarOrden_btn").show(200);
         });
       }
     });
@@ -622,6 +798,9 @@ window.guardarPedido = function () {
       type: 'POST',
       url: url + "/pedidos",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         console.log(result);
 
@@ -700,6 +879,9 @@ window.updatePedido = function () {
       type: 'PUT',
       url: url + "/pedidos/" + Data.id,
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         console.log(result);
 
@@ -727,11 +909,71 @@ window.deletePedido = function (id) {
     $.ajax({
       type: 'DELETE',
       url: url + "/pedidos/" + id,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         console.log(result);
       }
     });
   });
+};
+
+window.guardarPedidoPublic = function () {
+  $("small").remove();
+  var val = 0,
+      Data = {};
+  $("#crearPedido input[type='text'], #crearPedido input[type='email']").map(function () {
+    $("#crearPedido #" + this.id).removeClass("border-danger");
+
+    if ($("#crearPedido #" + this.id).val() == "") {
+      $("#crearPedido #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
+      $("#crearPedido #" + this.id).addClass("border-danger");
+      val++;
+    }
+
+    Data[this.id] = this.value;
+  });
+  Data.periodicidad = "";
+  var i = 0;
+  $.each($("#crearPedido #periodicidad:checked"), function () {
+    if (i != 0) {
+      Data.periodicidad = Data.periodicidad + ", " + $(this).val();
+    } else {
+      Data.periodicidad = $(this).val();
+    }
+
+    i++;
+  });
+
+  if (val == 0) {
+    console.log(Data);
+    $("#crearPedido .crearCliente_btn").hide(200, function () {
+      $("#crearPedido .crearCliente_loading").show(200);
+    });
+    $.ajax({
+      type: 'POST',
+      url: url + "/registrar-pedido-public2",
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: Data,
+      success: function success(result) {
+        console.log(result);
+
+        if (result == "Exito") {
+          swal("¡Listo!", "Pedido registrado satisfactoriamente!", "success");
+          $("#crearPedido input[type='text'], #crearPedido input[type='email']").map(function () {
+            $(this).val("");
+          });
+        }
+
+        $("#crearPedido .crearCliente_loading").hide(200, function () {
+          $("#crearPedido .crearCliente_btn").show(200);
+        });
+      }
+    });
+  }
 };
 
 /***/ }),
@@ -768,6 +1010,9 @@ window.ActualizarPerfil = function () {
       type: 'PATCH',
       url: url + "/usuarios/0",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         $(".actualizarPerfil_loading").hide(200, function () {
           $(".actualizarPerfil_btn").show(200);
@@ -820,6 +1065,9 @@ window.ActualizarPassword = function () {
       type: 'PATCH',
       url: url + "/usuarios/0",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         $(".actualizarPassword_loader").hide(200, function () {
           $(".actualizarPasswordB_btn").show(200);
@@ -878,6 +1126,9 @@ window.RegistroAdmin = function () {
         type: 'POST',
         url: url + "/usuarios/createAdmin",
         data: Data,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         success: function success(result) {
           if (result == "Exito") {
             swal("¡Listo!", "Registro Exitoso, ahora estas siendo redirigido", "success");
@@ -920,6 +1171,9 @@ window.RegistroVendedor = function () {
         type: 'POST',
         url: url + "/usuarios/createSeller",
         data: Data,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         success: function success(result) {
           console.log(result);
 
@@ -959,6 +1213,9 @@ window.resetearPass = function () {
       type: 'POST',
       url: url + "/usuarios/resetPass",
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
           swal("¡Listo!", "Hemos enviado un email a tu correo para el cambio de contraseña", "success");
@@ -1012,6 +1269,9 @@ window.resetearPass2 = function () {
       type: 'POST',
       url: url + "/resetear-contrasena/" + urlPath,
       data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function success(result) {
         if (result == "Exito") {
           swal("¡Listo!", "Contraseña Actualizada exitosamente", "success");
@@ -1051,8 +1311,8 @@ window.resetearPass2 = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\Workana\ElPollero\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Workana\ElPollero\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\xampp\htdocs\Workana\ElPollero\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\xampp\htdocs\Workana\ElPollero\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

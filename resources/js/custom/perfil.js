@@ -25,7 +25,8 @@ window.ActualizarPerfil=function(){
 			$.ajax({
 		      type: 'PATCH',
 		      url: url+"/usuarios/0",
-		      data: Data,
+					data: Data,
+					headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 
 		      	$(".actualizarPerfil_loading").hide(200, function(){
@@ -81,7 +82,8 @@ window.ActualizarPassword=function(){
 			$.ajax({
 		      type: 'PATCH',
 		      url: url+"/usuarios/0",
-		      data: Data,
+					data: Data,
+					headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		      success: function(result){
 
 		      	$(".actualizarPassword_loader").hide(200, function(){

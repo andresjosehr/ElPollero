@@ -18,7 +18,8 @@ window.login_ingreso=function(){
 	$.ajax({
 	      type: 'POST',
 	      url: url+"/login",
-	      data: Data,
+				data: Data,
+				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 	      success: function(result){
 
 	      	$(".login_loading").hide(200, function(){

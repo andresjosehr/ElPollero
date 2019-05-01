@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Clientes;
 use App\Usuarios;
+use App\Pedidos;
+use View;
 
 class ClientesController extends Controller
 {
@@ -101,4 +103,56 @@ class ClientesController extends Controller
         $Clientes = Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
         return view("clientes.lista", ["Clientes" => $Clientes]);
     }
+    public function emailCliente()
+    {
+        $Clientes = Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
+        return view("emailClientes.crear", ["Clientes" => $Clientes]);
+    }
+
+    public function emailCliente2(Request $Request)
+    {
+
+         foreach ($Request->except("content") as $key => $value) {
+             self::EmailInivitacion($value, $Request->content);
+         }
+
+         return "Exito";
+    }
+
+
+    public function EmailInivitacion($destinatario, $mensaje){
+
+
+        $header = "From: El Pollero <no-responder@elpollero.com> \r\n";
+        $header .= "Bcc: elpollero@gmail.com \r\n";
+        $header .= "X-Mailer: PHP/" . phpversion() . " \r\n";
+        $header .= "Mime-Version: 1.0 \r\n";
+        $header .= "Content-Type: text/html";
+
+        $body=(string)View::make('email.customEmailCliente', ["mensaje" => $mensaje]);
+
+        mail($destinatario, "El Pollero", $body, $header);
+    }
+
+    public function registrarPedidoPublic(Request $Request)
+    {
+        if(Clientes::where($Request->only("correo"))->first()){
+    
+        } else{
+            $Request->merge(["id_usuario" => 1]);
+            Clientes::insert($Request->only(["nombre", "correo", "telefono", "id_usuario"]));
+        }
+
+        $Cliente = Clientes::orderBy("id", "desc")->first();
+
+        $Request->merge(["id_cliente" => $Cliente->id]);
+
+        Pedidos::insert($Request->except(["nombre", "correo", "telefono", "id_usuario"]));
+
+        return "Exito";
+
+        
+    }
+
+
 }

@@ -24,7 +24,8 @@ class OrdenesTable extends Migration
             $table->string('especificaciones')->nullable();
             $table->string('estado')->nullable()->default("Abierta");
             $table->string('id_cliente')->nullable();
-            $table->integer('receptor')->nullable();
+            $table->string('receptor')->nullable();
+            $table->string('satisfaccion')->nullable();
             $table->string('tipo_cliente')->nullable();
             $table->timestamps();
         });

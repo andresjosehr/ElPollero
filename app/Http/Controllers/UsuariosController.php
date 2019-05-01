@@ -134,8 +134,6 @@ class UsuariosController extends Controller
     }
 
 
-
-
     public function EmailInivitacion($destinatario, $codigo){
 
 

@@ -4,7 +4,7 @@
     } else{
     }
 </script>
-<div id="clientesTable" style="display: none">
+<div id="clientesTable" style="display: none; overflow-x: auto;">
 <table id="example" class="display" style="width:100%">
         <thead>
             <tr>

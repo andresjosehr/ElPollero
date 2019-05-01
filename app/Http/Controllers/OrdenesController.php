@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use App\Usuarios;
 use App\Ordenes;
+use View;
 
 class OrdenesController extends Controller
 {
@@ -88,7 +89,13 @@ class OrdenesController extends Controller
      */
     public function update(Request $Request, $id)
     {
-    	Ordenes::where("id", $id)->update($Request->except("_method"));
+        Ordenes::where("id", $id)->update($Request->except("_method"));
+
+        if($Request->estado=="Cerrada"){
+            $Orden = Ordenes::where("id", $id)->with("Clientes")->first();
+
+            self::EmailOrden($Orden->Clientes->correo, $Orden->id);
+        }
     	return "Exito";
     }
 
@@ -113,5 +120,29 @@ class OrdenesController extends Controller
     public function destroy($id)
     {
         Ordenes::where("id", $id)->delete();
+    }
+
+    public function satisfaccion($orden, $satisfaccion)
+    {   
+        $Satis[1]="Muy bien"; $Satis[2]="Bien"; $Satis[3]="Regular"; $Satis[4]="Mal"; $Satis["5"]="Muy mal";
+        Ordenes::where("id", $orden)->update(["satisfaccion" => $Satis[$satisfaccion]])
+        ?><script>
+            alert("Muchas gracias por darnos esta informacion :)");
+        </script><?php
+    }
+
+
+    public function EmailOrden($destinatario, $orden){
+
+
+        $header = "From: El Pollero <no-responder@elpollero.com> \r\n";
+        $header .= "Bcc: elpollero@gmail.com \r\n";
+        $header .= "X-Mailer: PHP/" . phpversion() . " \r\n";
+        $header .= "Mime-Version: 1.0 \r\n";
+        $header .= "Content-Type: text/html";
+
+        $body=(string)View::make('email.ordenCerrada', ["orden" => $orden]);
+
+        mail($destinatario, "El Pollero", $body, $header);
     }
 }

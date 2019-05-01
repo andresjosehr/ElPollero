@@ -13,3 +13,4 @@
 	require("./template/core/app-menu.js");
 	require("./template/core/app.js");
 	require("./template/scripts/pages/dashboard-lite.js");
+	require("./template/ckeditor/ckeditor.js");
