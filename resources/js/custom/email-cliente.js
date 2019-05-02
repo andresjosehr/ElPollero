@@ -1,6 +1,6 @@
 
 
- $(document).ready(function() {
+window.initSample=function(){
 
     var parts = window.location.pathname.split('/');
 	var urlPath = parts.pop() || parts.pop();  // handle potential trailing slash
@@ -58,11 +58,13 @@ function isWysiwygareaAvailable() {
 
     return !!CKEDITOR.plugins.get( 'wysiwygarea' );
 }
-} )();
+
+})();
+
 }
 
-} );
-
+initSample()
+}
 
 window.enviarEmail=function(){
 

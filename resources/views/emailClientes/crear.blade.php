@@ -110,7 +110,9 @@ $(document).ready(function() {
     $("#clientesTable").css("display", "block")
     $("html").removeClass("loading")
     $("html").addClass("loaded")
-    initSample();
+    
+    setTimeout(initSample(), 5000);
+
 });
 </script>
 

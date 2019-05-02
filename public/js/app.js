@@ -349,7 +349,7 @@ window.updateCliente = function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(document).ready(function () {
+window.initSample = function () {
   var parts = window.location.pathname.split('/');
   var urlPath = parts.pop() || parts.pop(); // handle potential trailing slash
 
@@ -397,7 +397,9 @@ $(document).ready(function () {
       }
     }();
   }
-});
+
+  initSample();
+};
 
 window.enviarEmail = function () {
   var Data = {};
@@ -1443,8 +1445,8 @@ window.resetearPass2 = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\Workana\ElPollero\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Workana\ElPollero\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\xampp\htdocs\Workana\ElPollero\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\xampp\htdocs\Workana\ElPollero\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
