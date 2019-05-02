@@ -39,6 +39,7 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 
 	Route::resource("ordenes", "OrdenesController");
 	Route::post("ordenes/listaUpdate", "OrdenesController@listaUpdate");
+	Route::post("ordenes/ordenesEscritorio", "OrdenesController@ordenesEscritorio");
 
 
 	Route::resource("pedidos", "PedidosController");
@@ -84,5 +85,9 @@ Route::get("satisfaccion", function(){
 
 Route::get("satisfaccion/{orden}/{satisfaccion}", "OrdenesController@satisfaccion");
 
+Route::resource("informes", "InformesController");
 
 Route::resource("metas", "MetasController");
+Route::post("notificaciones", "DashboardCrontroller@notificaciones");
+Route::post("VerNotificacion", "DashboardCrontroller@VerNotificacion");
+Route::post("metas/createMeta", "MetasController@createMeta");

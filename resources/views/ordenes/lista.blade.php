@@ -20,7 +20,7 @@
         }
 </script>
 <div id="ordenesTable" style="display: none;  overflow-x: auto;">
-<table id="example" class="display" style="width:100%">
+<table id="example3" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>#</th>
@@ -56,7 +56,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#example').DataTable();
+        $('#example3').DataTable();
         $("#ordenesTable").css("display", "block")
     } );
 </script>
@@ -141,6 +141,9 @@
         $('#example2').DataTable();
         $("#ordenesCerradasTable").css("display", "block")
         $("#OredenesAbiertas").click()
+        $('.bd-example-modal-lg').modal('hide')
+        $(".modal-backdrop").css("display", "none")
+        $("body").css("overflow", "auto")
     } );
 </script>
 
@@ -156,6 +159,8 @@
     </div>
   </div>
 </div>
+
+@include("ordenes.editar")
 
 
 

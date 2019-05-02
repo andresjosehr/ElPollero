@@ -7,7 +7,10 @@ use App\Pedidos;
 use App\Ordenes;
 use App\Usuarios;
 use App\Clientes;
+use App\Metas;
+use App\Notificaciones;
 use DateTime;
+use Carbon\Carbon;
 
 class DashboardCrontroller extends Controller
 {
@@ -44,8 +47,18 @@ class DashboardCrontroller extends Controller
                                     })->with("clientes")->where("periodicidad", "like", "%".$CurrentDay."%")->get();
 
         $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
+
+        $Metas=Metas::where("id_usuario", session()->get("id"))->get();
+
+        $OrdenesHoyAbiertas = Ordenes::whereHas("clientes", function($q){
+            $q->whereIn("id_usuario", self::ConsultaPorRol());
+        })->with("clientes")->where("fecha_hora_entrega", "like", Carbon::today()->format('Y-m-d')."%")->where("estado", "Abierta")->get();
         
-        return view('escritorio', ["Pedidos" => $Pedidos]);
+        $OrdenesHoyCerradas = Ordenes::whereHas("clientes", function($q){
+            $q->whereIn("id_usuario", self::ConsultaPorRol());
+        })->with("clientes")->where("fecha_hora_entrega", "like", Carbon::today()->format('Y-m-d')."%")->where("estado", "Cerrada")->get();
+        
+        return view('escritorio', ["Pedidos" => $Pedidos, "Metas" => $Metas, "OrdenesHoyAbiertas" => $OrdenesHoyAbiertas, "OrdenesHoyCerradas" => $OrdenesHoyCerradas]);
     }
 
     /**
@@ -53,6 +66,20 @@ class DashboardCrontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function VerNotificacion(Request $Request)
+     {
+        Notificaciones::where("id_usuario", session()->get("id"))->update(["visto" => "1"]);
+     }
+
+     public function notificaciones()
+     {
+        $Notificaciones=Notificaciones::where("id_usuario", session()->get("id"))->get();
+
+        $NotificacionesNoVistas=Notificaciones::where("id_usuario", session()->get("id"))->where("visto", 0)->get();
+
+        return view("Notificaciones", ["Notificaciones" => $Notificaciones, "NotificacionesNoVistas" => $NotificacionesNoVistas]);
+     }
     public function create()
     {
         //

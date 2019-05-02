@@ -15,3 +15,4 @@ require('./custom/ordenes.js');
 require('./custom/pedidos.js');
 require('./custom/escritorio.js');
 require('./custom/email-cliente.js');
+require('./custom/metas.js');

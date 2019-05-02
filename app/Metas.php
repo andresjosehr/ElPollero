@@ -8,8 +8,8 @@ class Metas extends Model
 {
     protected $table = "metas";
 
-    public function Clientes()
+    public function Usuarios()
     {
-    	return $this->belongsToMany(Clientes::class, "metas", "id_usuario");
+    	return $this->belongsToMany(Usuarios::class, "metas", "id", "id_usuario");
     }
 }

@@ -21,3 +21,19 @@ window.onload=function(){
 	$("html").removeClass("loading");
 	$("html").addClass("loaded");
 }
+
+
+window.verNotificacion=function(){
+
+	$.ajax({
+		type: 'POST',
+		url: url+"/VerNotificacion",
+			  data: {Data: "Ejemplo"},
+			  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+		success: function(result){
+		}
+
+			
+	});
+
+}

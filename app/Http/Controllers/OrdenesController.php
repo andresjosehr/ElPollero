@@ -7,6 +7,8 @@ use App\Clientes;
 use App\Usuarios;
 use App\Ordenes;
 use View;
+use DateTime;
+use Carbon\Carbon;
 
 class OrdenesController extends Controller
 {
@@ -21,6 +23,17 @@ class OrdenesController extends Controller
         else{ $Consulta = Usuarios::select("id")->get()->toArray();  }
 
         return $Consulta;
+    }
+    
+    public function ordenesEscritorio(Request $Request)
+    {
+        $Ordenes = Ordenes::whereHas("clientes", function($q){
+            $q->whereIn("id_usuario", self::ConsultaPorRol());
+        })->with("clientes")->where("fecha_hora_entrega", "like", Carbon::today()->format('Y-m-d')."%")->get();
+
+        $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
+
+        return view("ordenes.lista", ["Clientes" => $Clientes, "Ordenes" => $Ordenes]);
     }
 
 
@@ -53,6 +66,10 @@ class OrdenesController extends Controller
      */
     public function store(Request $Request)
     {
+
+        if(session()->get("rol")=="2"){
+            $Request->merge(["created_at" => new \DateTime()]);
+        }
 
         Ordenes::insert($Request->all());
         return "Exito";
@@ -89,6 +106,12 @@ class OrdenesController extends Controller
      */
     public function update(Request $Request, $id)
     {
+
+        if(session()->get("rol")=="2" && $Request->estado=="Cerrada"){
+            $Request->merge(["update_cerrada_at" => new \DateTime()]);
+        }
+
+
         Ordenes::where("id", $id)->update($Request->except("_method"));
 
         if($Request->estado=="Cerrada"){
@@ -125,7 +148,15 @@ class OrdenesController extends Controller
     public function satisfaccion($orden, $satisfaccion)
     {   
         $Satis[1]="Muy bien"; $Satis[2]="Bien"; $Satis[3]="Regular"; $Satis[4]="Mal"; $Satis["5"]="Muy mal";
-        Ordenes::where("id", $orden)->update(["satisfaccion" => $Satis[$satisfaccion]])
+        Ordenes::where("id", $orden)->update(["satisfaccion" => $Satis[$satisfaccion]]);
+
+
+        foreach(Usuarios::where("rol", 1)->get() as $Usuario ){
+            Notificaciones::insert(["tipo" => 2, "notificacion" => "Un cliente ha llenado la encuesta de satisfaccion, puedes consultarla en el modulo de 'ordenes' ", "id_usuario" => $Usuario->id]);
+        }
+    
+
+
         ?><script>
             alert("Muchas gracias por darnos esta informacion :)");
         </script><?php

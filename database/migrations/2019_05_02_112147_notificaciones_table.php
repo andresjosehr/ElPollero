@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MetasTable extends Migration
+class NotificacionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class MetasTable extends Migration
      */
     public function up()
     {
-        Schema::create('metas', function (Blueprint $table) {
+        Schema::create('notificaciones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_usuario')->nullable();
+            $table->string('id_usuario')->nullable();
             $table->string('tipo')->nullable();
-            $table->string('periodo')->nullable();
-            $table->string('cantidad')->nullable();
+            $table->string('notificacion')->nullable();
+            $table->string('visto')->default("0");
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class MetasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('metas');
+        Schema::dropIfExists('notificaciones');
     }
 }

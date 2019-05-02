@@ -3,22 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Clientes;
 use App\Usuarios;
-use App\Metas;
+use App\Ordenes;
+use Carbon\Carbon;
 
-class MetasController extends Controller
+class InformesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-            $Metas = Usuarios::with("Metas")->where("rol", "2")->get();
+    public function index(){
 
+        $Clientes=Usuarios::whereHas("Clientes", function($q){
+            $q->where("created_at", "like", Carbon::today()->format('Y-m-d')."%");
+        })->with("clientes")->get();
 
-            return view("metas", ["Metas" => $Metas]);
+        $Ordenes=Clientes::whereHas("Ordenes", function($q){
+                $q->where("created_at", "like", Carbon::today()->format('Y-m-d')."%");
+            })->with("Ordenes")->get();
+
+        $Pedidos=Clientes::whereHas("Pedidos", function($q){
+            $q->where("created_at", "like", Carbon::today()->format('Y-m-d')."%");
+        })->with("Pedidos")->get();;
+        
+        $Usuarios=Usuarios::where("rol", 2)->get();
+
+        return view("informes", ["Usuarios" => $Usuarios, "Clientes" => $Clientes, "Ordenes" =>$Ordenes, "Pedidos" =>$Pedidos]);
     }
 
     /**
@@ -71,10 +84,9 @@ class MetasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $Request, $id)
+    public function update(Request $request, $id)
     {
-        Metas::where("id", $id)->update($Request->except("_method"));
-        return "Exito";
+        //
     }
 
     /**
@@ -85,13 +97,6 @@ class MetasController extends Controller
      */
     public function destroy($id)
     {
-        Metas::where("id", $id)->delete();
-    }
-
-    public function createMeta(Request $Request)
-    {
-        Metas::insert($Request->all());
-        return Metas::orderBy("id", "desc")->first();
-        
+        //
     }
 }

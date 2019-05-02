@@ -54,6 +54,11 @@ class PedidosController extends Controller
      */
     public function store(Request $Request)
     {
+
+        if(session()->get("rol")=="2"){
+            $Request->merge(["created_at" => new \DateTime()]);
+        }
+        
         Pedidos::insert($Request->all());
         return "Exito";
     }

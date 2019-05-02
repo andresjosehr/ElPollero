@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use App\Usuarios;
 use App\Pedidos;
+use App\Notificaciones;
 use View;
 
 class ClientesController extends Controller
@@ -45,6 +46,9 @@ class ClientesController extends Controller
      */
     public function store(Request $Request)
     {
+        if(session()->get("rol")=="2"){
+            $Request->merge(["created_at" => new \DateTime()]);
+        }
         $Request->merge(["id_usuario" => session()->get("id")]);
         Clientes::insert($Request->all());
         return "Exito";
@@ -137,13 +141,19 @@ class ClientesController extends Controller
     public function registrarPedidoPublic(Request $Request)
     {
         if(Clientes::where($Request->only("correo"))->first()){
-    
+
         } else{
             $Request->merge(["id_usuario" => 1]);
             Clientes::insert($Request->only(["nombre", "correo", "telefono", "id_usuario"]));
         }
 
         $Cliente = Clientes::orderBy("id", "desc")->first();
+
+        foreach(Usuarios::where("rol", 1)->get() as $Usuario ){
+            Notificaciones::insert(["tipo" => 1, "notificacion" => "Tienes un nuevo pedido de un cliente, consulta los pedidos en el sistema", "id_usuario" => $Usuario->id]);
+        }
+        
+        Notificaciones::insert(["tipo" => 1, "notificacion" => "Tienes un nuevo pedido de un cliente, consulta los pedidos en el sistema", "id_usuario" => $Cliente->id_usuario]);
 
         $Request->merge(["id_cliente" => $Cliente->id]);
 

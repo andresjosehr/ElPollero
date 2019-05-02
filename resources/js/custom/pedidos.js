@@ -3,7 +3,6 @@
 window.guardarPedido=function(){
 
     $("small").remove()
-    $("#crearPedido #"+this.id).addClass("border-danger")
     var val=0, Data={};
     $("#crearPedido input, #crearPedido select").map(function(){
         $("#crearPedido #"+this.id).removeClass("border-danger")

@@ -8,8 +8,18 @@ class Clientes extends Model
 {
     protected $table = "clientes";
 
-    public function Metas()
+    public function Usuarios()
     {
-    	return $this->hasMany(Metas::class, "id", "id_usuario");
+    	return $this->hasOne(Usuarios::class, "id", "id_usuario");
+    }
+
+    public function Ordenes()
+    {
+    	return $this->hasMany(Ordenes::class, "id_cliente", "id");
+    }
+
+    public function Pedidos()
+    {
+    	return $this->hasMany(Pedidos::class, "id_cliente", "id");
     }
 }

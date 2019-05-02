@@ -27,6 +27,7 @@ class OrdenesTable extends Migration
             $table->string('receptor')->nullable();
             $table->string('satisfaccion')->nullable();
             $table->string('tipo_cliente')->nullable();
+            $table->string('update_cerrada_at')->nullable();
             $table->timestamps();
         });
     }

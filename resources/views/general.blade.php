@@ -24,11 +24,7 @@
     <script>
       var url = '{{Request::root()}}';
 
-      $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+      
   </script>
     <script
   src="https://code.jquery.com/jquery-3.4.0.min.js"
@@ -62,54 +58,37 @@
             <ul class="nav navbar-nav float-xs-right">
                 <div aria-labelledby="dropdown-flag" class="dropdown-menu"><a href="#" class="dropdown-item"><i class="flag-icon flag-icon-gb"></i> English</a><a href="#" class="dropdown-item"><i class="flag-icon flag-icon-fr"></i> French</a><a href="#" class="dropdown-item"><i class="flag-icon flag-icon-cn"></i> Chinese</a><a href="#" class="dropdown-item"><i class="flag-icon flag-icon-de"></i> German</a></div>
               </li>
-              <li class="dropdown dropdown-notification nav-item"><a href="#" data-toggle="dropdown" class="nav-link nav-link-label"><i class="ficon icon-bell4"></i><span class="tag tag-pill tag-default tag-danger tag-default tag-up">5</span></a>
-                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
-                  <li class="dropdown-menu-header">
-                    <h6 class="dropdown-header m-0"><span class="grey darken-2">Notifications</span><span class="notification-tag tag tag-default tag-danger float-xs-right m-0">5 New</span></h6>
+              {{-- <div id="notificaciones"></div> --}}
+
+
+
+
+              <li class="dropdown dropdown-notification nav-item"><a href="#" onclick="verNotificacion()" data-toggle="dropdown" class="nav-link nav-link-label"><i class="ficon icon-bell4"></i><span class="tag tag-pill tag-default tag-danger tag-default tag-up noti_number">     </span></a>
+                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right" id='notificaciones'>
+                  {{-- <li class="dropdown-menu-header">
+                    <h6 class="dropdown-header m-0"><span class="grey darken-2">Notifications</span><span class="notification-tag tag tag-default tag-danger float-xs-right m-0">{{count($Notificaciones)}} Nuevas</span></h6>
                   </li>
+                  <div id="notificaciones"></div>
+                  @foreach ($Notificaciones as $Notificacion)
                   <li class="list-group scrollable-container"><a href="javascript:void(0)" class="list-group-item">
                       <div class="media">
                         <div class="media-left valign-middle"><i class="icon-cart3 icon-bg-circle bg-cyan"></i></div>
                         <div class="media-body">
-                          <h6 class="media-heading">You have new order!</h6>
-                          <p class="notification-text font-small-3 text-muted">Lorem ipsum dolor sit amet, consectetuer elit.</p><small>
-                            <time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">30 minutes ago</time></small>
+                          <h6 class="media-heading">Nueva notificacion!</h6>
+                          <p class="notification-text font-small-3 text-muted">{{$Notificacion->notificacion}}</p><small>
                         </div>
-                      </div></a><a href="javascript:void(0)" class="list-group-item">
-                      <div class="media">
-                        <div class="media-left valign-middle"><i class="icon-monitor3 icon-bg-circle bg-red bg-darken-1"></i></div>
-                        <div class="media-body">
-                          <h6 class="media-heading red darken-1">99% Server load</h6>
-                          <p class="notification-text font-small-3 text-muted">Aliquam tincidunt mauris eu risus.</p><small>
-                            <time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">Five hour ago</time></small>
-                        </div>
-                      </div></a><a href="javascript:void(0)" class="list-group-item">
-                      <div class="media">
-                        <div class="media-left valign-middle"><i class="icon-server2 icon-bg-circle bg-yellow bg-darken-3"></i></div>
-                        <div class="media-body">
-                          <h6 class="media-heading yellow darken-3">Warning notifixation</h6>
-                          <p class="notification-text font-small-3 text-muted">Vestibulum auctor dapibus neque.</p><small>
-                            <time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">Today</time></small>
-                        </div>
-                      </div></a><a href="javascript:void(0)" class="list-group-item">
-                      <div class="media">
-                        <div class="media-left valign-middle"><i class="icon-check2 icon-bg-circle bg-green bg-accent-3"></i></div>
-                        <div class="media-body">
-                          <h6 class="media-heading">Complete the task</h6><small>
-                            <time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">Last week</time></small>
-                        </div>
-                      </div></a><a href="javascript:void(0)" class="list-group-item">
-                      <div class="media">
-                        <div class="media-left valign-middle"><i class="icon-bar-graph-2 icon-bg-circle bg-teal"></i></div>
-                        <div class="media-body">
-                          <h6 class="media-heading">Generate monthly report</h6><small>
-                            <time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">Last month</time></small>
-                        </div>
-                      </div></a></li>
-                  <li class="dropdown-menu-footer"><a href="javascript:void(0)" class="dropdown-item text-muted text-xs-center">Read all notifications</a></li>
+                  @endforeach
+                  </li>
+                  <li class="dropdown-menu-footer" style="display:none;"><a href="javascript:void(0)" class="dropdown-item text-muted text-xs-center">Read all notifications</a></li> --}}
                 </ul>
               </li>
-              <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="{{ asset('template/images/portrait/small/avatar-s-1.png') }}" alt="avatar"><i></i></span><span class="user-name">{{session()->get("nombre")}}</span></a>
+
+
+
+
+
+              <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link" style='padding-top: 24px;
+'><span class="user-name">{{session()->get("nombre")}}</span></a>
                 <div class="dropdown-menu dropdown-menu-right">
                   <div class="dropdown-divider"></div><a href="CerrarSesion" class="dropdown-item"><i class="icon-power3"></i> Cerrar Sesion</a>
                 </div>
@@ -127,7 +106,7 @@
     <div data-scroll-to-active="true" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
       <!-- main menu header-->
       <div class="main-menu-header" style="margin-top: 131px;">
-        <input type="text" placeholder="Search" class="menu-search form-control round"/>
+        {{-- <input type="text" placeholder="Search" class="menu-search form-control round"/> --}}
       </div>
       <!-- / main menu header-->
       <!-- main menu content-->
@@ -149,16 +128,64 @@
           </li>
           <li class="nav-item clientes_sidebar"><a href="email-clientes"><i class="icon-mail2"></i><span data-i18n="nav.dash.main" class="menu-title">Envios de email</span></a>
           </li>
+          @if (session()->get("rol")==1)
           <li class="nav-item clientes_sidebar"><a href="metas"><i class="icon-flag2"></i><span data-i18n="nav.dash.main" class="menu-title">Metas de Vendedores</span></a>
           </li>
+          <li class="nav-item clientes_sidebar"><a href="informes"><i class="icon-libreoffice"></i><span data-i18n="nav.dash.main" class="menu-title">Informe de vendedores</span></a>
+          </li>
+          @endif
         </ul>
       </div>
+      
+      <script>
+        $(document).ready(function(){
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+
+          $("#notificaciones").load(url+"/notificaciones",{Data: "Ejemplo"});
+        })        
+      </script>
 
       <!-- /main menu content-->
       <!-- main menu footer-->
       <!-- include includes/menu-footer-->
       <!-- main menu footer-->
     </div>
+    <style>
+
+       .main-menu-content::-webkit-scrollbar {
+                    width: 8px;     /* Tamaño del scroll en vertical */
+                    height: 8px;    /* Tamaño del scroll en horizontal */
+                }
+
+                .main-menu-content::-webkit-scrollbar-thumb {
+                    background: #ccc;
+                    border-radius: 4px;
+                }
+
+                /* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+                .main-menu-content::-webkit-scrollbar-thumb:hover {
+                    background: #b3b3b3;
+                    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+                }
+
+                /* Cambiamos el fondo cuando esté en active */
+                .main-menu-content::-webkit-scrollbar-thumb:active {
+                    background-color: #999999;
+                }
+      .main-menu-content{
+        overflow: auto;
+        height: 60% !important;
+      }
+      @media screen and (max-width:1000px) {
+        .navbar-brand img{
+          width: 31px !important;
+        }
+      }
+    </style>
     <!-- / main menu-->
 
 

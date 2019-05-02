@@ -5,8 +5,9 @@
       </div>
       <div class="content-body">
          <!-- stats -->
+         <h2 style='padding: 20px;'>Información rapida</h2>
          <div class="row">
-            <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="col-xl-4 col-lg-6 col-xs-12">
                <div class="card">
                   <div class="card-body">
                      <div class="card-block">
@@ -23,51 +24,34 @@
                   </div>
                </div>
             </div>
-            <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="col-xl-4 col-lg-6 col-xs-12">
                <div class="card">
                   <div class="card-body">
                      <div class="card-block">
                         <div class="media">
                            <div class="media-body text-xs-left">
-                              <h3 class="teal">156</h3>
-                              <span>New Clients</span>
+                              <h3 class="teal">{{count($OrdenesHoyAbiertas)}}</h3>
+                              <span>Ordenes para hoy</span>
                            </div>
                            <div class="media-right media-middle">
-                              <i class="icon-user1 teal font-large-2 float-xs-right"></i>
+                              <i class="icon-bag2 pink font-large-2 float-xs-right"></i>
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
-            <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="col-xl-4 col-lg-6 col-xs-12">
                <div class="card">
                   <div class="card-body">
                      <div class="card-block">
                         <div class="media">
                            <div class="media-body text-xs-left">
-                              <h3 class="deep-orange">64.89 %</h3>
-                              <span>Conversion Rate</span>
+                              <h3 class="deep-orange">{{count($OrdenesHoyCerradas)}}</h3>
+                              <span>Ordenes cerradas hoy</span>
                            </div>
                            <div class="media-right media-middle">
-                              <i class="icon-diagram deep-orange font-large-2 float-xs-right"></i>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-xs-12">
-               <div class="card">
-                  <div class="card-body">
-                     <div class="card-block">
-                        <div class="media">
-                           <div class="media-body text-xs-left">
-                              <h3 class="cyan">423</h3>
-                              <span>Support Tickets</span>
-                           </div>
-                           <div class="media-right media-middle">
-                              <i class="icon-ios-help-outline cyan font-large-2 float-xs-right"></i>
+                              <i class="icon-bag2 pink font-large-2 float-xs-rightt"></i>
                            </div>
                         </div>
                      </div>
@@ -76,6 +60,32 @@
             </div>
          </div>
          <!--/ stats -->
+         @if(session()->get("rol")=="2")
+         <!-- stats -->
+         <h2 style='padding: 20px;'>Metas de venta</h2>
+         <div class="row">
+            @foreach ($Metas as $Meta)
+            <div class="col-xl-3 col-lg-6 col-xs-12">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="card-block">
+                        <div class="media">
+                           <div class="media-body text-xs-left">
+                              <h3 class="pink">{{$Meta->Cantidad}}</h3>
+                              <span>{{$Meta->tipo}}</span>
+                           </div>
+                           <div class="media-right media-middle">
+                                 <h3 class="pink">{{$Meta->periodo}}</h3>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            @endforeach
+         </div>
+         <!--/ stats -->
+         @endif
          <!--/ project charts -->
          <div class="row">
             <div class="col-xl-12 col-lg-12">
@@ -146,12 +156,31 @@
                </div>
             </div>
          <!--/ project charts -->
+
+         <!--/ project charts -->
+         <div class="row">
+            <div class="col-xl-12 col-lg-12">
+               <div class="card">
+                  <div class="card-body">
+                     <h2 style='padding: 20px;'>Ordenes del dia de hoy</h2>
+                     <div id="ordenesLista-A">
+                           
+                       </div>
+                       <div id="ordenesLista-B">
+                       </div>
+                  </div>
+               </div>
+            </div>
+         <!--/ project charts -->
       </div>
    </div>
 </div>
 <script>
 $(document).ready(function(){
-    PedidoLlamado();
+       
+
+    $("#ordenesLista-A").load(url+"/ordenes/ordenesEscritorio",{Data: "Ejemplo"});
 });
 </script>
+@include("darSeguimiento");
 @include("footer");
