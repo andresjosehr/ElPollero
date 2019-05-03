@@ -764,20 +764,25 @@ window.editOrder = function (orden) {
 
 window.updaterOrden = function () {
   var val = 0,
-      Data = {};
-  $("#editarOrdenPedido small").remove();
-  $("#editarOrdenPedido input, #editarOrdenPedido select").map(function () {
-    $("#editarOrdenPedido #" + this.id).removeClass("border-danger");
+      i = 0;
+  Data = {};
+  $(".editarOrdenPedidoEditar small").remove();
+  $(".editarOrdenPedidoEditar input, .editarOrdenPedidoEditar select").map(function () {
+    if (i < 6) {
+      $(".editarOrdenPedidoEditar #" + this.id).removeClass("border-danger");
 
-    if (this.id != "especificaciones") {
-      if (this.value == "") {
-        $("#editarOrdenPedido #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
-        $("#editarOrdenPedido #" + this.id).addClass("border-danger");
-        val++;
+      if (this.id != "especificaciones") {
+        if (this.value == "") {
+          $(".editarOrdenPedidoEditar #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
+          $(".editarOrdenPedidoEditar #" + this.id).addClass("border-danger");
+          val++;
+        }
       }
+
+      Data[this.id] = this.value;
     }
 
-    Data[this.id] = this.value;
+    i++;
   });
 
   if (val == 0) {
@@ -839,18 +844,24 @@ window.cerrarOrder = function (id) {
 
 window.cerrrarOrdenUpdate = function () {
   var val = 0,
+      i = 0,
       Data = {};
   $(".cerrarOrdenUpdateDefin small").remove();
   $(".cerrarOrdenUpdateDefin input, .cerrarOrdenUpdateDefin select").map(function () {
-    $(".cerrarOrdenUpdateDefin #" + this.id).removeClass("border-danger");
+    if (i < 5) {
+      $(".cerrarOrdenUpdateDefin #" + this.id).removeClass("border-danger");
+      console.log(this);
 
-    if (this.value == "") {
-      $(".cerrarOrdenUpdateDefin #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
-      $(".cerrarOrdenUpdateDefin #" + this.id).addClass("border-danger");
-      val++;
+      if (this.value == "") {
+        $(".cerrarOrdenUpdateDefin #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
+        $(".cerrarOrdenUpdateDefin #" + this.id).addClass("border-danger");
+        val++;
+      }
+
+      Data[this.id] = this.value;
     }
 
-    Data[this.id] = this.value;
+    i++;
   });
 
   if (val == 0) {
@@ -1445,8 +1456,8 @@ window.resetearPass2 = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! c:\xampp\htdocs\Workana\ElPollero\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! c:\xampp\htdocs\Workana\ElPollero\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\Workana\ElPollero\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Workana\ElPollero\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

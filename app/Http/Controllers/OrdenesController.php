@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use App\Usuarios;
 use App\Ordenes;
+use App\Notificaciones;
 use View;
 use DateTime;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class OrdenesController extends Controller
      */
 
     public function ConsultaPorRol(){
-        if (session()->get("id")==2) { $Consulta[0]=session()->get("id"); }
+        if (session()->get("rol")==2) { $Consulta[0]=session()->get("id"); }
         else{ $Consulta = Usuarios::select("id")->get()->toArray();  }
 
         return $Consulta;
@@ -106,6 +107,7 @@ class OrdenesController extends Controller
      */
     public function update(Request $Request, $id)
     {
+
 
         if(session()->get("rol")=="2" && $Request->estado=="Cerrada"){
             $Request->merge(["update_cerrada_at" => new \DateTime()]);

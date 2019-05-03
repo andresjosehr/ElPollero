@@ -60,18 +60,22 @@ window.editOrder=function(orden){
 
 window.updaterOrden=function(){
 
-	var val=0, Data={};
-	$("#editarOrdenPedido small").remove()
-	$("#editarOrdenPedido input, #editarOrdenPedido select").map(function(){
-		$("#editarOrdenPedido #"+this.id).removeClass("border-danger");
-		if (this.id!="especificaciones") {
-			if (this.value=="") {
-				$("#editarOrdenPedido #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
-				$("#editarOrdenPedido #"+this.id).addClass("border-danger")
-				val++;
+	var val=0, i=0; Data={};
+	$(".editarOrdenPedidoEditar small").remove()
+	$(".editarOrdenPedidoEditar input, .editarOrdenPedidoEditar select").map(function(){
+		if (i<6) {
+				$(".editarOrdenPedidoEditar #"+this.id).removeClass("border-danger");
+				if (this.id!="especificaciones") {
+					if (this.value=="") {
+						$(".editarOrdenPedidoEditar #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
+						$(".editarOrdenPedidoEditar #"+this.id).addClass("border-danger")
+						val++;
+					}
+				}
+				
+				Data[this.id]=this.value;
 			}
-		}
-		Data[this.id]=this.value;
+		i++;
 	})
 
 	if (val==0) {
@@ -141,18 +145,21 @@ window.cerrarOrder=function(id){
 window.cerrrarOrdenUpdate=function(){
 
 
-		var val=0, Data={};
+		var val=0, i=0, Data={};
 	$(".cerrarOrdenUpdateDefin small").remove()
 	$(".cerrarOrdenUpdateDefin input, .cerrarOrdenUpdateDefin select").map(function(){
+		if (i<5) {
+				$(".cerrarOrdenUpdateDefin #"+this.id).removeClass("border-danger");
+					console.log(this)
+					if (this.value=="") {
 
-		$(".cerrarOrdenUpdateDefin #"+this.id).removeClass("border-danger");
-			if (this.value=="") {
-
-				$(".cerrarOrdenUpdateDefin #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
-				$(".cerrarOrdenUpdateDefin #"+this.id).addClass("border-danger")
-				val++;
+						$(".cerrarOrdenUpdateDefin #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
+						$(".cerrarOrdenUpdateDefin #"+this.id).addClass("border-danger")
+						val++;
+					}
+				Data[this.id]=this.value;
 			}
-		Data[this.id]=this.value;
+			i++
 	})
 
 	if (val==0) {

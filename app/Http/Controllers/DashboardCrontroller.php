@@ -21,7 +21,7 @@ class DashboardCrontroller extends Controller
      */
 
     public function ConsultaPorRol(){
-        if (session()->get("id")==2) { $Consulta[0]=session()->get("id"); }
+        if (session()->get("rol")==2) { $Consulta[0]=session()->get("id"); }
         else{ $Consulta = Usuarios::select("id")->get()->toArray();  }
 
         return $Consulta;

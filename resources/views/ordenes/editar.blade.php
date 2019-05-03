@@ -5,13 +5,13 @@
    <div class="modal-content">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Gestion de orden</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
          </div>
          <div class="modal-body">
-            <div id="editarOrdenPedido">
+            <div id="editarOrdenPedido" class="editarOrdenPedidoEditar">
                <input type="hidden" id="id">
                <div class="form-body">
                   <div class="form-group">
@@ -150,13 +150,12 @@
       </div>
    </div>
 </div>
-
 <script>
-      var url = '{{Request::root()}}';
-
-      $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-  </script>
+   var url = '{{Request::root()}}';
+   
+   $.ajaxSetup({
+     headers: {
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     }
+   });
+</script>

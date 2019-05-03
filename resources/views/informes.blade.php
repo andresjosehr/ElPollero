@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-xs-12 mb-1">
-                    <h2 class="content-header-title">Clientes</h2>
+                    <h2 class="content-header-title">Informes</h2>
             </div>
         </div>
         <div class="content-body">
@@ -16,6 +16,9 @@
                            
                         </div>
                         <div id="accordion" style="padding:20px">
+                            @if (count($Usuarios)==0)
+                                <h2 align="center">No hay vendedores registrados en estos momentos</h2>
+                            @endif
                            @foreach ($Usuarios as $Usuario)
                             <div class="card">
                               <div class="card-header" id="headingOne" style='padding-top:20px'>
@@ -93,6 +96,7 @@
                                                     <tbody id='tbody_'>
                                                             @foreach ($Ordenes as $Orden)
                                                             @if($Orden->id_usuario==$Usuario->id)
+                                                            <script>alert()</script>
                                                                 @foreach ($Orden->ordenes as $OrdenDefinitiva)
                                                                 @if($OrdenDefinitiva->estado=="Abierta")
                                                                 <tr>

@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-xs-12 mb-1">
-                <h2 class="content-header-title">Clientes</h2>
+                <h2 class="content-header-title">Metas</h2>
             </div>
         </div>
         <div class="content-body">
@@ -18,6 +18,9 @@
                         <div id="accordion" style="padding:20px">
                            
                             <div class="card">
+                                @if (count($Metas)==0)
+                                    <h2 align="center">No hay vendedores registrados en estos momentos</h2>
+                                @endif
                                 @foreach ($Metas as $Cliente)
                               <div class="card-header" id="headingOne" style='padding-top:20px'>
                                 <h5 class="mb-0">

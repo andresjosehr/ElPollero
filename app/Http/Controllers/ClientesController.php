@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Clientes;
 use App\Usuarios;
 use App\Pedidos;
+use App\Ordenes;
 use App\Notificaciones;
 use View;
 
 class ClientesController extends Controller
 {
     public function ConsultaPorRol(){
-        if (session()->get("id")==2) { $Consulta[0]=session()->get("id"); }
+        if (session()->get("rol")==2) { $Consulta[0]=session()->get("id"); }
         else{ $Consulta = Usuarios::select("id")->get()->toArray();  }
 
         return $Consulta;
@@ -23,7 +24,7 @@ class ClientesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         $Clientes = Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
         return view("clientes.clientes", ["Clientes" => $Clientes]);
     }
@@ -99,6 +100,8 @@ class ClientesController extends Controller
     public function destroy($id)
     {
         Clientes::where("id", $id)->delete();
+        Ordenes::where("id_cliente", $id)->delete();
+        Pedidos::where("id_pedidos", $id)->delete();
         return "Exito";
     }
 
