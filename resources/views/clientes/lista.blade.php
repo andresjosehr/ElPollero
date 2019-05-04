@@ -17,7 +17,6 @@
                 <th>Negocios</th>
                 <th>Clientes</th>
                 <th>Acciones</th>
-
             </tr>
         </thead>
         <tbody>
@@ -38,6 +37,7 @@
                     </td>
                 </tr>
             @endforeach
+            </tbody>
         </tfoot>
     </table>
 </div>

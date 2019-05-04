@@ -66,20 +66,54 @@
                                        <div class="col-md-12">
                                           <label for="timesheetinput1">Productos</label>
                                           <div class="position-relative has-icon-left nombre_parent">
-                                             <input type="text" id="productos" class="form-control" placeholder="Productos asociados a la orden">
+                                             <select id="productos" class="form-control">
+                                              @foreach ($Productos as $Producto)
+                                                <option value="{{$Producto->nombre}}">{{$Producto->nombre}}</option>
+                                              @endforeach
+                                             </select>
                                              <div class="form-control-position">
                                                 <i class="icon-bag"></i>
                                              </div>
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                        <div class="form-group">
                                           <label for="timesheetinput2">Cantidad</label>
                                           <div class="position-relative has-icon-left">
-                                             <input type="text" id="cantidad" class="form-control" placeholder="Cantidad total de la orden">
+                                             <input type="text" id="Cantidad" class="form-control" placeholder="En numero">
                                              <div class="form-control-position">
                                                 <i class="icon-ios-keypad"></i>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div style="display: flex;padding-top: 15px;width: 50%;">
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <div class="position-relative has-icon-left">
+                                                <label> </label>
+                                                <div class="input-group">
+                                                   <label class="display-inline-block custom-control custom-radio ml-1">
+                                                   <input type="radio" name="customer1" id='tipo_cantidad' checked="checked" value="Libras" class="custom-control-input">
+                                                   <span class="custom-control-indicator"></span>
+                                                   <span class="custom-control-description ml-0">Libras</span>
+                                                   </label>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <div class="form-group">
+                                             <div class="position-relative has-icon-left">
+                                                <label> </label>
+                                                <div class="input-group" style="margin-left: 22px">
+                                                   <label class="display-inline-block custom-control custom-radio ml-1">
+                                                   <input type="radio" name="customer1" id='tipo_cantidad' value="Unidades" class="custom-control-input">
+                                                   <span class="custom-control-indicator"></span>
+                                                   <span class="custom-control-description ml-0">Unidades</span>
+                                                   </label>
+                                                </div>
                                              </div>
                                           </div>
                                        </div>

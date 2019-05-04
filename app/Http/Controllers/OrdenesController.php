@@ -42,7 +42,7 @@ class OrdenesController extends Controller
     {
     	$Ordenes = Ordenes::whereHas("clientes", function($q){
 			    		$q->whereIn("id_usuario", self::ConsultaPorRol());
-			    	})->with("clientes")->get();
+			    	})->with("clientes")->orderBy("fecha_hora_entrega", "desc")->get();
 
     	$Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
 

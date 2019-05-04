@@ -36,6 +36,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Crear cliente</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="negocios-tab" data-toggle="tab" href="#negocios" role="tab" aria-controls="profile" aria-selected="false">Tipos de negocios</a>
+                            </li>
                         </ul>
 
                         <div class="tab-content" id="myTabContent">
@@ -47,7 +50,10 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            	@include("clientes.crear")
+                                @include("clientes.crear")
+                            </div>
+                            <div class="tab-pane fade" id="negocios" role="tabpanel" aria-labelledby="negocios-tab">
+                                @include("clientes.negocios")
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
                         </div>

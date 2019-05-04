@@ -25,6 +25,13 @@ window.guardarPedido=function(){
         i++;
     });
 
+
+    Data.tipo_cantidad=""; var i=0;
+    $.each($("#crearPedido #tipo_cantidad:checked"), function(){            
+        Data.tipo_cantidad=$(this).val();
+        i++;
+    });
+
     
 
     if(val==0){
@@ -38,14 +45,15 @@ window.guardarPedido=function(){
             data: Data,
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		    success: function(result){
-                console.log(result)
 		    	if (result=="Exito") {
 		    		$("#pedidosLista-B").load(url+"/pedidos/listaUpdate", {Data: "Ejemplo"});
 
 		    		swal("¡Listo!", "Pedido registrado satisfactoriamente!", "success");
 		    		$("#crearPedido input").map(function(){
-					$(this).val("");
-				})
+                        if (this.id!="productos" && this.id!="periodicidad") {
+					        $(this).val("");
+                        }
+				    })
 		    	}
 
 		    	$("#crearPedido .crearCliente_loading").hide(200, function(){
@@ -74,11 +82,28 @@ window.editPedido=function(pedido){
                 $("#editarPedido input[value='"+periodicidad[value]+"']").prop('checked', true);               
             })
         }else{
-            $("#editarPedido #"+key).val(pedido[key]);
+            if (key!="tipo_cantidad" && key!="productos") {
+                $("#editarPedido #"+key).val(pedido[key]);
+            }
         }
-	}
 
-    $("#editarpedido_btn").click();
+        if(key=="tipo_cantidad"){
+                $("#editarPedido .Libras").prop('checked', false);
+                $("#editarPedido .Unidades").prop('checked', false);
+
+                $("#editarPedido ."+pedido.tipo_cantidad).prop('checked', true);               
+        }
+
+        if(key=="productos"){
+            $("#editarPedido #productos option").map(function(){
+                $(this).removeAttr("selected");
+            })
+               $("#editarPedido #productos option[value='"+pedido.productos+"']").attr('selected', "selected");               
+               $("#editarPedido #productos").val(pedido.productos);
+        }
+    }
+
+    $("#modalPedido").click();
 }
 
 
@@ -101,6 +126,11 @@ window.updatePedido=function(){
         Data[this.id]=this.value;
     });
 
+    $.each($("#editarPedido .tipo_cantidad:checked"), function(){            
+        Data.tipo_cantidad=$(this).val();
+        i++;
+    });
+
     Data.periodicidad=""; var i=0;
     $.each($("#editarPedido #periodicidad:checked"), function(){            
         if(i!=0){
@@ -115,10 +145,7 @@ window.updatePedido=function(){
     
 
     if(val==0){
-
         Data._method="POST";
-
-        console.log(Data)
 
         $("#crearPedido .crearCliente_btn").hide(200, function(){
             $("#crearPedido .crearCliente_loading").show(200);
@@ -130,11 +157,15 @@ window.updatePedido=function(){
             data: Data,
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		    success: function(result){
-                console.log(result)
 		    	if (result=="Exito") {
 		    		 $("#pedidosLista-B").load(url+"/pedidos/listaUpdate", {Data: "Ejemplo"});
 
 		    		swal("¡Listo!", "Pedido actualizado satisfactoriamente!", "success");
+                    var parts = window.location.pathname.split('/');
+                    var urlPath = parts.pop() || parts.pop();
+                    if (urlPath=="public") {
+                        location.reload();
+                    }
 		    	}
 
 		    	$("#crearPedido .crearCliente_loading").hide(200, function(){
@@ -148,7 +179,7 @@ window.updatePedido=function(){
 
 
 window.deletePedido=function(id){
-    swal("Espera!", "¿Estas seguro de eliminar este peido?", "warning")
+    swal({ title: "Espera!", text: "¿Estas seguro de eliminar este peido?", icon: "warning", buttons: true})
 	.then((value) => {
 	  $("#pedido_"+id).fadeOut("slow", function(){
 	  	$("#pedido_"+id).remove();
@@ -159,7 +190,6 @@ window.deletePedido=function(id){
         url: url+"/pedidos/"+id,
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 	    success: function(result){
-	    	console.log(result);
 	    }
 
 	});
@@ -196,7 +226,6 @@ window.guardarPedidoPublic=function(){
 
     if(val==0){
 
-        console.log(Data)
 
         $("#crearPedido .crearCliente_btn").hide(200, function(){
             $("#crearPedido .crearCliente_loading").show(200);
@@ -207,7 +236,6 @@ window.guardarPedidoPublic=function(){
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		    data: Data,
 		    success: function(result){
-                console.log(result)
 		    	if (result=="Exito") {
 
 
@@ -225,4 +253,109 @@ window.guardarPedidoPublic=function(){
 		});
     }
 
+}
+
+
+window.createOrderAtPedido=function(pedido){
+
+    pedido=JSON.parse(pedido);
+
+
+    $("#crearOrdenAtPedido #productos option").map(function(){
+        $(this).removeAttr("selected")
+        if ($(this).val()==pedido.productos) {
+            $(this).attr("selected", "selected");
+
+            $("#crearOrdenAtPedido #productos").val(pedido.productos);
+
+        }
+    })
+
+    $("#crearOrdenAtPedido input[value='Libras']").prop('checked', false);
+    $("#crearOrdenAtPedido input[value='Unidades']").prop('checked', false);
+
+    $("#crearOrdenAtPedido input[value='"+pedido.tipo_cantidad+"']").prop('checked', true);
+
+    $("#crearOrdenAtPedido #cantidad").val(pedido.cantidad);
+    $("#crearOrdenAtPedido #especificaciones").val(pedido.especificaciones);
+
+    $("#crearOrdenAtPedido #id_cliente").val(pedido.id_cliente);
+    $("#crearOrdenAtPedido #id_pedido").val(pedido.id);
+
+
+    var parts = window.location.pathname.split('/');
+    var urlPath = parts.pop() || parts.pop();
+    if (urlPath=="public") {
+        $("#PEle").click();
+    } else{
+        $("#ModalCreateOrden_btn").click();
+    }
+}
+
+
+
+window.guardarOrderAtPedido=function(){
+    var val=0, Data={};
+    $("#crearOrdenAtPedido small").remove()
+    $("#crearOrdenAtPedido input, #crearOrdenAtPedido select").map(function(){
+        $("#crearOrdenAtPedido #"+this.id).removeClass("border-danger");
+        if (this.id!="especificaciones" && this.id!="tipo_cantidad") {
+            if (this.value=="") {
+                $("#crearOrdenAtPedido #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
+                $("#crearOrdenAtPedido #"+this.id).addClass("border-danger")
+                val++;
+            }
+        }
+        if (this.id!="id_pedido") {
+            Data[this.id]=this.value;
+        }
+    })
+
+    Data.tipo_cantidad=""; var i=0;
+    $.each($("#crearOrdenAtPedido #tipo_cantidad:checked"), function(){            
+        Data.tipo_cantidad=$(this).val();
+        i++;
+    });
+
+    if (val==0) {
+
+        OrdenCreada($("#crearOrdenAtPedido #id_pedido").val());
+
+        $.ajax({
+            type: 'POST',
+            url: url+"/ordenes",
+                data: Data,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function(result){
+
+                if (result=="Exito") {
+
+                     $("#ordenesLista-B").load(url+"/ordenes/listaUpdate", {Data: "Ejemplo"});
+
+                    swal("¡Listo!", "Orden registrado satisfactoriamente!", "success");
+                    $("#crearOrdenAtPedido input").map(function(){
+                        if (this.id!="tipo_cantidad") {
+                            $(this).val("");
+                        }
+                    })
+                    location.reload();
+                }
+
+                $(".crearCliente_loading").hide(200, function(){
+                    $(".crearCliente_btn").show(200);
+                });
+
+            }
+        });
+    }
+}
+
+window.OrdenCreada=function(id) {
+    $.ajax({
+            type: 'POST',
+            url: url+"/OrdenCreada/"+id,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function(result){
+            }
+        });
 }

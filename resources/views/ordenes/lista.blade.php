@@ -38,7 +38,7 @@
                     <tr id="orden_{{$Orden->id}}">
                         <td>{{$Orden->id}}</td>
                         <td>{{$Orden->productos}}</td>
-                        <td>{{$Orden->cantidad}}</td>
+                        <td>{{$Orden->cantidad}} {{$Orden->tipo_cantidad}}</td>
                         <td>{{$Orden->fecha_hora_entrega}}</td>
                         <td>@if ($Orden->especificaciones==null) Sin datos @else {{$Orden->especificaciones}} @endif</td>
                         <td>{{$Orden->Clientes->nombre}}</td>
@@ -80,7 +80,7 @@
     <div class="card-header" style="background: #ff444459" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Ordenes Cerradas
+          Lista para despacho
         </button>
       </h5>
     </div>
@@ -118,7 +118,7 @@
                     <tr id="orden_{{$Orden->id}}">
                         <td>{{$Orden->id}}</td>
                         <td>{{$Orden->productos}}</td>
-                        <td>{{$Orden->cantidad}}</td>
+                        <td>{{$Orden->cantidad}} {{$Orden->tipo_cantidad}}</td>
                         <td>{{$Orden->fecha_hora_entrega}}</td>
                         <td>@if ($Orden->especificaciones==null) Sin datos @else {{$Orden->especificaciones}} @endif</td>
                         <td>{{$Orden->fecha_hora_entregada}}</td>

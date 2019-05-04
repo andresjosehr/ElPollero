@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
                     DB::table('clientes')->delete();
                     DB::table('ordenes')->delete();
                     DB::table('metas')->delete();
+                    DB::table('productos')->delete();
+                    DB::table('tipo_negocios')->delete();
 
                     DB::select("ALTER TABLE sys_poll_usuarios AUTO_INCREMENT = 1;");
                     DB::select("ALTER TABLE sys_poll_clientes AUTO_INCREMENT = 1;");
@@ -31,7 +33,7 @@ class DatabaseSeeder extends Seeder
                             'rol'      => "1"
                         ]);
 
-                    $faker = Faker::create();
+                    // $faker = Faker::create();
 
                     // foreach (range(1,10) as $index) {
                     //     DB::table("usuarios")->insert([
@@ -42,30 +44,51 @@ class DatabaseSeeder extends Seeder
                     //     ]);
                     // }
 
+                    // $Producto[1]="Pollo"; $Producto[2]="Muslo"; $Producto[3]="Pechuga"; $Producto[4]="Cuadrante"; $i=1;
+                    // foreach (range(1,4) as $index) {
+                    //     DB::table("productos")->insert([
+                    //         'nombre'   => $Producto[$i],
+                    //     ]);
+                    //     $i++;
+                    // }
 
-                    // foreach (range(1,10) as $index) {
+                    // $Negocio[1]="Restaurant"; $Negocio[2]="Colmado"; $Negocio[3]="Distribuidor"; $Negocio[4]="Gubernamental"; $i=1;
+                    // foreach (range(1,4) as $index) {
+                    //     DB::table("tipo_negocios")->insert([
+                    //         'nombre'   => $Negocio[$i],
+                    //     ]);
+                    //     $i++;
+                    // }
+
+
+                    // foreach (range(1,100) as $index) {
                     //     DB::table("clientes")->insert([
-                    //         'nombre'   => $faker->name,
-                    //         'cedula'    => $faker->numberBetween(100000, 999999),
+                    //         'nombre'       => $faker->name,
+                    //         'cedula'       => $faker->numberBetween(100000, 999999),
                     //         'direccion'    => $faker->sentence($nbWords = 6, $variableNbWords = true),
-                    //         'zona'    => $faker->country,
-                    //         'telefono'    => $faker->tollFreePhoneNumber,
-                    //         'correo'    => $faker->email,
+                    //         'zona'         => $faker->country,
+                    //         'telefono'     => $faker->tollFreePhoneNumber,
+                    //         'correo'       => $faker->email,
                     //         'productos'    => $faker->randomElement(array ('Muslo','Pechuga','Alitas', 'Pescuezo', 'Pollo Entero')),
-                    //         'tipo_negocio'    => $faker->randomElement(array ('Colmado','Pollera','Restaurant')),
-                    //         'tipo_cliente'    => $faker->randomElement(array ('Fisico personal','Juridico empresa')),
-                    //         'id_usuario'    => "1"
+                    //         'tipo_negocio' => $faker->randomElement(array ('Restaurant','Colmado','Distribuidor', 'Gubernamental')),
+                    //         'tipo_cliente' => $faker->randomElement(array ('Fisico personal','Juridico empresa')),
+                    //         'id_usuario'   => $faker->numberBetween(1, 10)
                     //     ]);
                     // }
 
 
-                    // foreach (range(1,10) as $index) {
+                    // foreach (range(1, 500) as $index) {
                     //     DB::table("ordenes")->insert([
-                    //         'productos'   => $faker->randomElement(array ('Muslo','Pechuga','Alitas', 'Pescuezo', 'Pollo Entero')),
-                    //         'cantidad'    => $faker->numberBetween(1, 10)." Kilos",
-                    //         'fecha_hora_entrega'    => $faker->date($format = 'Y-m-d', $min = 'now')." ".$faker->time($format = 'H:i:s', $min = 'now'),
-                    //         'especificaciones'    => $faker->sentence,
-                    //         'id_cliente'    => $faker->numberBetween(1, 10),
+                    //         'productos'          => $faker->randomElement(array ('Pollo','Muslo','Pechuga', 'Cuadrante')),
+                    //         'cantidad'           => $faker->numberBetween(1, 10),
+                    //         'tipo_cantidad'      => $faker->randomElement(array ('Unidades','Libras')),
+                    //         'fecha_hora_entrega' => $faker->dateTimeBetween($startDate = '-1 hour', $endDate = '+4 days', $timezone = null), // DateTime('2003-03-15 02:00:49', 'Africa/Lagos')
+                    //         'fecha_hora_entregada' => $faker->dateTimeBetween($startDate = '-1 hour', $endDate = '+4 days', $timezone = null), // DateTime('2003-03-15 02:00:49', 'Africa/Lagos')
+                    //         'especificaciones'   => $faker->sentence,
+                    //         'estado'             => "Cerrada",
+                    //         'receptor'           => $faker->name,
+                    //         'numero_factura'     => $faker->numberBetween(100000, 999999),
+                    //         'id_cliente'         => $faker->numberBetween(1, 100),
                     //     ]);
                     // }
 

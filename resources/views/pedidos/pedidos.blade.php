@@ -36,6 +36,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Crear Orden de pedido</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="productos_-tab" data-toggle="tab" href="#productos_" role="tab" aria-controls="productos_" aria-selected="false">Gestion de productos</a>
+                            </li>
                         </ul>
 
                         <div class="tab-content" id="myTabContent">
@@ -47,7 +50,10 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            	@include("pedidos.crear")
+                                @include("pedidos.crear")
+                            </div>
+                            <div class="tab-pane fade" id="productos_" role="tabpanel" aria-labelledby="productos-tab">
+                                @include("pedidos.productos")
                             </div>
                         </div>
                     </div>
@@ -57,6 +63,8 @@
         </div>
     </div>
 </div>
+
+@include("pedidos.createOrdenAtPedido")
 
 @include("pedidos.editar")
 @include("footer");

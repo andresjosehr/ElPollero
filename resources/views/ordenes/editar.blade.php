@@ -25,7 +25,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-2">
                      <div class="form-group">
                         <label for="timesheetinput2">Cantidad</label>
                         <div class="position-relative has-icon-left">
@@ -36,6 +36,36 @@
                         </div>
                      </div>
                   </div>
+                  <div class="cantidad" style="display: flex;padding-top: 15px;">
+      <div class="col-md-2">
+         <div class="form-group">
+            <div class="position-relative has-icon-left">
+                <label> </label>
+                <div class="input-group">
+                   <label class="display-inline-block custom-control custom-radio ml-1">
+                   <input type="radio" name="customer1" id='tipo_cantidad' value="Libras" class="custom-control-input Libras tipo_cantidad" placeholder="Libras">
+                   <span class="custom-control-indicator"></span>
+                   <span class="custom-control-description ml-0">Lib</span>
+                   </label>
+                </div>
+             </div>
+         </div>
+      </div>
+      <div class="col-md-2">
+         <div class="form-group">
+            <div class="position-relative has-icon-left">
+                <label> </label>
+                <div class="input-group" style="margin-left: 22px">
+                   <label class="display-inline-block custom-control custom-radio ml-1">
+                   <input type="radio" name="customer1" id='tipo_cantidad' value="Unidades" class="custom-control-input Unidades tipo_cantidad" placeholder="Unidades">
+                   <span class="custom-control-indicator"></span>
+                   <span class="custom-control-description ml-0">Uni</span>
+                   </label>
+                </div>
+             </div>
+         </div>
+      </div>
+      </div>
                   <div class="col-md-6">
                      <div class="form-group">
                         <label for="timesheetinput2">Especificaciones</label>
@@ -58,7 +88,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                      <div class="form-group">
                         <label for="timesheetinput2">Cliente</label>
                         <div class="position-relative has-icon-left">
@@ -69,6 +99,17 @@
                            </select>
                            <div class="form-control-position">
                               <i class="icon-head"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="form-group">
+                        <label for="timesheetinput2">Fecha y hora para entregar</label>
+                        <div class="position-relative has-icon-left">
+                           <input type="text" class="datetimepicker" id="fecha_hora_entrega">
+                           <div class="form-control-position">
+                              <i class="icon-calendar"></i>
                            </div>
                         </div>
                      </div>
@@ -88,17 +129,6 @@
             <div id="cerrarOrdenUpdate" class='cerrarOrdenUpdateDefin'>
                <input type="hidden" id="id">
                <div class="form-body">
-                  <div class="form-group">
-                     <div class="col-md-6">
-                        <label for="timesheetinput1">Fecha y Hora Entregada</label>
-                        <div class="position-relative has-icon-left nombre_parent">
-                           <input type="datetime-local" id="fecha_hora_entregada" class="form-control" placeholder="Fecha y hora en la que se entrego el producto">
-                           <div class="form-control-position">
-                              <i class="icon-bag"></i>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
                   <div class="col-md-6">
                      <div class="form-group">
                         <label for="timesheetinput2">Forma de pago</label>
@@ -121,11 +151,22 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                      <div class="form-group">
                         <label for="timesheetinput2">Receptor de la orden</label>
                         <div class="position-relative has-icon-left">
                            <input type="text" id="receptor" class="form-control" placeholder="Indique la persona que recibio la orden">
+                           <div class="form-control-position">
+                              <i class="icon-calendar"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="form-group">
+                        <label for="timesheetinput2">Fecha y hora en que se entrego la orden</label>
+                        <div class="position-relative has-icon-left">
+                           <input type="text" class="datetimepicker" id="fecha_hora_entregada">
                            <div class="form-control-position">
                               <i class="icon-calendar"></i>
                            </div>
@@ -156,6 +197,38 @@
    $.ajaxSetup({
      headers: {
          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     }
+   });
+</script>
+
+</style>
+<script>
+   $('#editarOrdenPedido .datetimepicker').datetimepicker({
+      inline:true,
+      step: 30,
+      formatTime:"h:i a",
+      onChangeDateTime:  function (ct,$i) {
+
+         var Fechita= new Date(ct);
+         var Fecha=moment(Fechita).format('YYYY-MM-DD h:mm a');
+
+        $('#editarOrdenPedido #fecha_hora_entrega').val(Fecha);
+
+     }
+   });
+
+
+   $('#cerrarOrdenUpdate .datetimepicker').datetimepicker({
+      inline:true,
+      step: 30,
+      formatTime:"h:i a",
+      onChangeDateTime:  function (ct,$i) {
+
+         var Fechita= new Date(ct);
+         var Fecha=moment(Fechita).format('YYYY-MM-DD h:mm a');
+
+        $('#cerrarOrdenUpdate #fecha_hora_entregada').val(Fecha);
+
      }
    });
 </script>

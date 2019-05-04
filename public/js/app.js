@@ -120,6 +120,10 @@ __webpack_require__(/*! ./custom/email-cliente.js */ "./resources/js/custom/emai
 
 __webpack_require__(/*! ./custom/metas.js */ "./resources/js/custom/metas.js");
 
+__webpack_require__(/*! ./custom/negocios.js */ "./resources/js/custom/negocios.js");
+
+__webpack_require__(/*! ./custom/productos.js */ "./resources/js/custom/productos.js");
+
 /***/ }),
 
 /***/ "./resources/js/custom/administradores.js":
@@ -260,21 +264,28 @@ window.guardarCliente = function () {
 };
 
 window.deleteClient = function (id) {
-  swal("Espera!", "¿Estas seguro de eliminar este cliente? Todos los registro asociados a este cliente tambien seran eliminados", "warning").then(function (value) {
-    $("#cliente_" + id).fadeOut("slow", function () {
-      $("#cliente_" + id).remove();
-      swal("¡Listo!", "Cliente Eliminado satisfactoriamente", "success");
-    });
-    $.ajax({
-      type: 'DELETE',
-      url: url + "/clientes/" + id,
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      success: function success(result) {
-        console.log(result);
-      }
-    });
+  swal({
+    title: "Espera!",
+    text: "¿Estas seguro de eliminar este cliente? Todos los registro asociados a este cliente tambien seran eliminados",
+    icon: "warning",
+    buttons: true
+  }).then(function (value) {
+    if (value) {
+      $("#cliente_" + id).fadeOut("slow", function () {
+        $("#cliente_" + id).remove();
+        swal("¡Listo!", "Cliente Eliminado satisfactoriamente", "success");
+      });
+      $.ajax({
+        type: 'DELETE',
+        url: url + "/clientes/" + id,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function success(result) {
+          console.log(result);
+        }
+      });
+    }
   });
 };
 
@@ -698,6 +709,106 @@ window.deleteMeta = function (id) {
 
 /***/ }),
 
+/***/ "./resources/js/custom/negocios.js":
+/*!*****************************************!*\
+  !*** ./resources/js/custom/negocios.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.createNegocio = function () {
+  var idRow = makeid(10);
+  $("#negocio_tbody").append("<tr id='" + idRow + "'>" + '<td class="text-truncate"><input type="text" id="nombre" class="form-control" placeholder="Escriba el tipo de negocio" name="lname"></td>' + '<td class="text-truncate"><button class="btn btn-primary btn-block" onclick="StoreNegocio(' + "'" + idRow + "'" + ')">Guardar</button></td>' + "<tr>");
+};
+
+window.StoreNegocio = function (id) {
+  var val = 0;
+  $("#" + id + " #nombre").removeClass("border-danger");
+  $("#" + id + " small").remove();
+
+  if ($("#" + id + " #nombre").val() == "") {
+    $("#" + id + " #nombre").addClass("border-danger");
+    $("#" + id + " #nombre").after("<small style='color:red'>Debes completar este campo</small>");
+    val++;
+  }
+
+  if (val == 0) {
+    var Data = {};
+    Data.nombre = $("#" + id + " #nombre").val();
+    $.ajax({
+      type: 'POST',
+      url: url + "/TipoNegocios",
+      data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        swal("Listo", "Tipo de negocio registrado correctamente", "success");
+        $("#" + id).attr("id", "negocio_" + result.id);
+        $("#negocio_" + result.id + " .btn-primary").css("display", "none");
+        $("#negocio_" + result.id + " .btn-primary").parent().append('<button class="btn btn-primary" onclick="GuardarNegocio(' + "'" + result.id + "'" + ')">Guardar</button>' + '<button class="btn btn-danger" onclick="deleteNegocio(' + "'" + result.id + "'" + ')">Eliminar</button>');
+      }
+    });
+  }
+};
+
+window.GuardarNegocio = function (id) {
+  var val = 0;
+  $("#negocio_" + id + " #nombre").removeClass("border-danger");
+  $("#negocio_" + id + " small").remove();
+
+  if ($("#negocio_" + id + " #nombre").val() == "") {
+    $("#negocio_" + id + " #nombre").addClass("border-danger");
+    $("#negocio_" + id + " #nombre").after("<small style='color:red'>Debes completar este campo</small>");
+    val++;
+  }
+
+  if (val == 0) {
+    var Data = {};
+    Data.nombre = $("#negocio_" + id + " #nombre").val();
+    Data._method = "POST";
+    swal("Listo!", "El tipo de negocio se ha actualizado de manera exitosa", "success");
+    $.ajax({
+      type: 'PUT',
+      url: url + "/TipoNegocios/" + id,
+      data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {// console.log(result);
+      }
+    });
+  }
+};
+
+window.deleteNegocio = function (id) {
+  swal({
+    title: "Espera!",
+    text: "¿Estas seguro de eliminar este tipo de negocio?",
+    icon: "warning",
+    buttons: true
+  }).then(function (value) {
+    if (value) {
+      $("#negocio_" + id).fadeOut("slow", function () {
+        $("#negocio_" + id).remove();
+        swal("¡Listo!", "Cliente Eliminado satisfactoriamente", "success");
+      });
+      $.ajax({
+        type: 'DELETE',
+        url: url + "/TipoNegocios/" + id,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function success(result) {
+          console.log(result);
+        }
+      });
+    }
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/custom/ordenes.js":
 /*!****************************************!*\
   !*** ./resources/js/custom/ordenes.js ***!
@@ -712,7 +823,7 @@ window.guardarOrden = function () {
   $("#crearOrdenPedido input, #crearOrdenPedido select").map(function () {
     $("#crearOrdenPedido #" + this.id).removeClass("border-danger");
 
-    if (this.id != "especificaciones") {
+    if (this.id != "especificaciones" && this.id != "tipo_cantidad") {
       if (this.value == "") {
         $("#crearOrdenPedido #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
         $("#crearOrdenPedido #" + this.id).addClass("border-danger");
@@ -721,6 +832,12 @@ window.guardarOrden = function () {
     }
 
     Data[this.id] = this.value;
+  });
+  Data.tipo_cantidad = "";
+  var i = 0;
+  $.each($("#crearOrdenPedido #tipo_cantidad:checked"), function () {
+    Data.tipo_cantidad = $(this).val();
+    i++;
   });
 
   if (val == 0) {
@@ -738,7 +855,9 @@ window.guardarOrden = function () {
           });
           swal("¡Listo!", "Orden registrado satisfactoriamente!", "success");
           $("#crearOrdenPedido input").map(function () {
-            $(this).val("");
+            if (this.id != "tipo_cantidad") {
+              $(this).val("");
+            }
           });
         }
 
@@ -754,9 +873,14 @@ window.editOrder = function (orden) {
   orden = JSON.parse(orden);
 
   for (var key in orden) {
-    $("#editarOrdenPedido #" + key).val(orden[key]);
+    if (key != "tipo_cantidad") {
+      $("#editarOrdenPedido #" + key).val(orden[key]);
+    }
   }
 
+  $(".editarOrdenPedidoEditar .Libras").first().prop('checked', false);
+  $(".editarOrdenPedidoEditar .Unidades").first().prop('checked', false);
+  $(".editarOrdenPedidoEditar ." + orden.tipo_cantidad).first().prop('checked', true);
   $("#editarOrdenPedido").css("display", "block");
   $(".cerrarOrdenUpdateDefin").css("display", "none");
   $("#editarOrden_btn").click();
@@ -771,7 +895,7 @@ window.updaterOrden = function () {
     if (i < 6) {
       $(".editarOrdenPedidoEditar #" + this.id).removeClass("border-danger");
 
-      if (this.id != "especificaciones") {
+      if (this.id != "especificaciones" && this.id != "tipo_cantidad") {
         if (this.value == "") {
           $(".editarOrdenPedidoEditar #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
           $(".editarOrdenPedidoEditar #" + this.id).addClass("border-danger");
@@ -782,6 +906,10 @@ window.updaterOrden = function () {
       Data[this.id] = this.value;
     }
 
+    i++;
+  });
+  $.each($(".editarOrdenPedidoEditar .tipo_cantidad:checked"), function () {
+    Data.tipo_cantidad = $(this).val();
     i++;
   });
 
@@ -803,9 +931,6 @@ window.updaterOrden = function () {
             Data: "Ejemplo"
           });
           swal("¡Listo!", "Orden actualizada satisfactoriamente!", "success");
-          $("#editarOrdenPedido input").map(function () {
-            $(this).val("");
-          });
         }
 
         $(".editarOrden_loading").hide(200, function () {
@@ -817,7 +942,12 @@ window.updaterOrden = function () {
 };
 
 window.deleteOrder = function (id) {
-  swal("Espera!", "¿Estas seguro de eliminar esta orden?", "warning").then(function (value) {
+  swal({
+    title: "Espera!",
+    text: "¿Estas seguro de eliminar esta orden?",
+    icon: "warning",
+    buttons: true
+  }).then(function (value) {
     $("#orden_" + id).fadeOut("slow", function () {
       $("#orden_" + id).remove();
       swal("¡Listo!", "Orden Eliminada satisfactoriamente", "success");
@@ -828,9 +958,7 @@ window.deleteOrder = function (id) {
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
-      success: function success(result) {
-        console.log(result);
-      }
+      success: function success(result) {}
     });
   });
 };
@@ -850,7 +978,6 @@ window.cerrrarOrdenUpdate = function () {
   $(".cerrarOrdenUpdateDefin input, .cerrarOrdenUpdateDefin select").map(function () {
     if (i < 5) {
       $(".cerrarOrdenUpdateDefin #" + this.id).removeClass("border-danger");
-      console.log(this);
 
       if (this.value == "") {
         $(".cerrarOrdenUpdateDefin #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
@@ -934,6 +1061,12 @@ window.guardarPedido = function () {
 
     i++;
   });
+  Data.tipo_cantidad = "";
+  var i = 0;
+  $.each($("#crearPedido #tipo_cantidad:checked"), function () {
+    Data.tipo_cantidad = $(this).val();
+    i++;
+  });
 
   if (val == 0) {
     $("#crearPedido .crearCliente_btn").hide(200, function () {
@@ -947,15 +1080,15 @@ window.guardarPedido = function () {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       success: function success(result) {
-        console.log(result);
-
         if (result == "Exito") {
           $("#pedidosLista-B").load(url + "/pedidos/listaUpdate", {
             Data: "Ejemplo"
           });
           swal("¡Listo!", "Pedido registrado satisfactoriamente!", "success");
           $("#crearPedido input").map(function () {
-            $(this).val("");
+            if (this.id != "productos" && this.id != "periodicidad") {
+              $(this).val("");
+            }
           });
         }
 
@@ -980,11 +1113,27 @@ window.editPedido = function (pedido) {
         $("#editarPedido input[value='" + periodicidad[value] + "']").prop('checked', true);
       });
     } else {
-      $("#editarPedido #" + key).val(pedido[key]);
+      if (key != "tipo_cantidad" && key != "productos") {
+        $("#editarPedido #" + key).val(pedido[key]);
+      }
+    }
+
+    if (key == "tipo_cantidad") {
+      $("#editarPedido .Libras").prop('checked', false);
+      $("#editarPedido .Unidades").prop('checked', false);
+      $("#editarPedido ." + pedido.tipo_cantidad).prop('checked', true);
+    }
+
+    if (key == "productos") {
+      $("#editarPedido #productos option").map(function () {
+        $(this).removeAttr("selected");
+      });
+      $("#editarPedido #productos option[value='" + pedido.productos + "']").attr('selected', "selected");
+      $("#editarPedido #productos").val(pedido.productos);
     }
   }
 
-  $("#editarpedido_btn").click();
+  $("#modalPedido").click();
 };
 
 window.updatePedido = function () {
@@ -1002,6 +1151,10 @@ window.updatePedido = function () {
 
     Data[this.id] = this.value;
   });
+  $.each($("#editarPedido .tipo_cantidad:checked"), function () {
+    Data.tipo_cantidad = $(this).val();
+    i++;
+  });
   Data.periodicidad = "";
   var i = 0;
   $.each($("#editarPedido #periodicidad:checked"), function () {
@@ -1016,7 +1169,6 @@ window.updatePedido = function () {
 
   if (val == 0) {
     Data._method = "POST";
-    console.log(Data);
     $("#crearPedido .crearCliente_btn").hide(200, function () {
       $("#crearPedido .crearCliente_loading").show(200);
     });
@@ -1028,13 +1180,17 @@ window.updatePedido = function () {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       success: function success(result) {
-        console.log(result);
-
         if (result == "Exito") {
           $("#pedidosLista-B").load(url + "/pedidos/listaUpdate", {
             Data: "Ejemplo"
           });
           swal("¡Listo!", "Pedido actualizado satisfactoriamente!", "success");
+          var parts = window.location.pathname.split('/');
+          var urlPath = parts.pop() || parts.pop();
+
+          if (urlPath == "public") {
+            location.reload();
+          }
         }
 
         $("#crearPedido .crearCliente_loading").hide(200, function () {
@@ -1046,7 +1202,12 @@ window.updatePedido = function () {
 };
 
 window.deletePedido = function (id) {
-  swal("Espera!", "¿Estas seguro de eliminar este peido?", "warning").then(function (value) {
+  swal({
+    title: "Espera!",
+    text: "¿Estas seguro de eliminar este peido?",
+    icon: "warning",
+    buttons: true
+  }).then(function (value) {
     $("#pedido_" + id).fadeOut("slow", function () {
       $("#pedido_" + id).remove();
       swal("¡Listo!", "Pedido Eliminado satisfactoriamente", "success");
@@ -1057,9 +1218,7 @@ window.deletePedido = function (id) {
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
-      success: function success(result) {
-        console.log(result);
-      }
+      success: function success(result) {}
     });
   });
 };
@@ -1092,7 +1251,6 @@ window.guardarPedidoPublic = function () {
   });
 
   if (val == 0) {
-    console.log(Data);
     $("#crearPedido .crearCliente_btn").hide(200, function () {
       $("#crearPedido .crearCliente_loading").show(200);
     });
@@ -1104,8 +1262,6 @@ window.guardarPedidoPublic = function () {
       },
       data: Data,
       success: function success(result) {
-        console.log(result);
-
         if (result == "Exito") {
           swal("¡Listo!", "Pedido registrado satisfactoriamente!", "success");
           $("#crearPedido input[type='text'], #crearPedido input[type='email']").map(function () {
@@ -1119,6 +1275,101 @@ window.guardarPedidoPublic = function () {
       }
     });
   }
+};
+
+window.createOrderAtPedido = function (pedido) {
+  pedido = JSON.parse(pedido);
+  $("#crearOrdenAtPedido #productos option").map(function () {
+    $(this).removeAttr("selected");
+
+    if ($(this).val() == pedido.productos) {
+      $(this).attr("selected", "selected");
+      $("#crearOrdenAtPedido #productos").val(pedido.productos);
+    }
+  });
+  $("#crearOrdenAtPedido input[value='Libras']").prop('checked', false);
+  $("#crearOrdenAtPedido input[value='Unidades']").prop('checked', false);
+  $("#crearOrdenAtPedido input[value='" + pedido.tipo_cantidad + "']").prop('checked', true);
+  $("#crearOrdenAtPedido #cantidad").val(pedido.cantidad);
+  $("#crearOrdenAtPedido #especificaciones").val(pedido.especificaciones);
+  $("#crearOrdenAtPedido #id_cliente").val(pedido.id_cliente);
+  $("#crearOrdenAtPedido #id_pedido").val(pedido.id);
+  var parts = window.location.pathname.split('/');
+  var urlPath = parts.pop() || parts.pop();
+
+  if (urlPath == "public") {
+    $("#PEle").click();
+  } else {
+    $("#ModalCreateOrden_btn").click();
+  }
+};
+
+window.guardarOrderAtPedido = function () {
+  var val = 0,
+      Data = {};
+  $("#crearOrdenAtPedido small").remove();
+  $("#crearOrdenAtPedido input, #crearOrdenAtPedido select").map(function () {
+    $("#crearOrdenAtPedido #" + this.id).removeClass("border-danger");
+
+    if (this.id != "especificaciones" && this.id != "tipo_cantidad") {
+      if (this.value == "") {
+        $("#crearOrdenAtPedido #" + this.id).after("<small style='color:red'>Debes completar este campo</small>");
+        $("#crearOrdenAtPedido #" + this.id).addClass("border-danger");
+        val++;
+      }
+    }
+
+    if (this.id != "id_pedido") {
+      Data[this.id] = this.value;
+    }
+  });
+  Data.tipo_cantidad = "";
+  var i = 0;
+  $.each($("#crearOrdenAtPedido #tipo_cantidad:checked"), function () {
+    Data.tipo_cantidad = $(this).val();
+    i++;
+  });
+
+  if (val == 0) {
+    OrdenCreada($("#crearOrdenAtPedido #id_pedido").val());
+    $.ajax({
+      type: 'POST',
+      url: url + "/ordenes",
+      data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        if (result == "Exito") {
+          $("#ordenesLista-B").load(url + "/ordenes/listaUpdate", {
+            Data: "Ejemplo"
+          });
+          swal("¡Listo!", "Orden registrado satisfactoriamente!", "success");
+          $("#crearOrdenAtPedido input").map(function () {
+            if (this.id != "tipo_cantidad") {
+              $(this).val("");
+            }
+          });
+          location.reload();
+        }
+
+        $(".crearCliente_loading").hide(200, function () {
+          $(".crearCliente_btn").show(200);
+        });
+      }
+    });
+  }
+};
+
+window.OrdenCreada = function (id) {
+  $.ajax({
+    type: 'POST',
+    url: url + "/OrdenCreada/" + id,
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function success(result) {}
+  });
 };
 
 /***/ }),
@@ -1230,6 +1481,106 @@ window.ActualizarPassword = function () {
       }
     });
   }
+};
+
+/***/ }),
+
+/***/ "./resources/js/custom/productos.js":
+/*!******************************************!*\
+  !*** ./resources/js/custom/productos.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.createProducto = function () {
+  var idRow = makeid(10);
+  $("#producto_tbody").append("<tr id='" + idRow + "'>" + '<td class="text-truncate"><input type="text" id="nombre" class="form-control" placeholder="Escriba el nombre del producto" name="lname"></td>' + '<td class="text-truncate"><button class="btn btn-primary btn-block" onclick="StoreProducto(' + "'" + idRow + "'" + ')">Guardar</button></td>' + "<tr>");
+};
+
+window.StoreProducto = function (id) {
+  var val = 0;
+  $("#" + id + " #nombre").removeClass("border-danger");
+  $("#" + id + " small").remove();
+
+  if ($("#" + id + " #nombre").val() == "") {
+    $("#" + id + " #nombre").addClass("border-danger");
+    $("#" + id + " #nombre").after("<small style='color:red'>Debes completar este campo</small>");
+    val++;
+  }
+
+  if (val == 0) {
+    var Data = {};
+    Data.nombre = $("#" + id + " #nombre").val();
+    $.ajax({
+      type: 'POST',
+      url: url + "/Productos",
+      data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        swal("Listo", "Producto registrado correctamente", "success");
+        $("#" + id).attr("id", "producto_" + result.id);
+        $("#producto_" + result.id + " .btn-primary").css("display", "none");
+        $("#producto_" + result.id + " .btn-primary").parent().append('<button class="btn btn-primary" onclick="GuardarProducto(' + "'" + result.id + "'" + ')">Guardar</button>' + '<button class="btn btn-danger" onclick="deleteProducto(' + "'" + result.id + "'" + ')">Eliminar</button>');
+      }
+    });
+  }
+};
+
+window.GuardarProducto = function (id) {
+  var val = 0;
+  $("#producto_" + id + " #nombre").removeClass("border-danger");
+  $("#producto_" + id + " small").remove();
+
+  if ($("#producto_" + id + " #nombre").val() == "") {
+    $("#producto_" + id + " #nombre").addClass("border-danger");
+    $("#producto_" + id + " #nombre").after("<small style='color:red'>Debes completar este campo</small>");
+    val++;
+  }
+
+  if (val == 0) {
+    var Data = {};
+    Data.nombre = $("#producto_" + id + " #nombre").val();
+    Data._method = "POST";
+    swal("Listo!", "El producto se ha actualizado de manera exitosa", "success");
+    $.ajax({
+      type: 'PUT',
+      url: url + "/Productos/" + id,
+      data: Data,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {// console.log(result);
+      }
+    });
+  }
+};
+
+window.deleteProducto = function (id) {
+  swal({
+    title: "Espera!",
+    text: "¿Estas seguro de eliminar este producto?",
+    icon: "warning",
+    buttons: true
+  }).then(function (value) {
+    if (value) {
+      $("#producto_" + id).fadeOut("slow", function () {
+        $("#producto_" + id).remove();
+        swal("¡Listo!", "Producto Eliminado satisfactoriamente", "success");
+      });
+      $.ajax({
+        type: 'DELETE',
+        url: url + "/Productos/" + id,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function success(result) {
+          console.log(result);
+        }
+      });
+    }
+  });
 };
 
 /***/ }),

@@ -17,6 +17,7 @@ class OrdenesTable extends Migration
             $table->increments('id');
             $table->string('productos')->nullable();
             $table->string('cantidad')->nullable();
+            $table->string('tipo_cantidad')->nullable();
             $table->string('fecha_hora_entrega')->nullable();
             $table->string('fecha_hora_entregada')->nullable();
             $table->string('forma_pago')->nullable();

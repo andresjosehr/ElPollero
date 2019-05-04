@@ -7,6 +7,7 @@ use App\Clientes;
 use App\Usuarios;
 use App\Ordenes;
 use App\Pedidos;
+use App\Productos;
 
 
 class PedidosController extends Controller
@@ -31,10 +32,11 @@ class PedidosController extends Controller
         $Pedidos = Pedidos::whereHas("clientes", function($q){
             $q->whereIn("id_usuario", self::ConsultaPorRol());
         })->with("clientes")->get();
+Productos::all();
 
         $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
 
-        return view("pedidos.pedidos", ["Clientes" => $Clientes, "Pedidos" => $Pedidos]);
+        return view("pedidos.pedidos", ["Clientes" => $Clientes, "Pedidos" => $Pedidos, "Productos" => Productos::all()]);
     }
 
     /**
@@ -120,5 +122,14 @@ class PedidosController extends Controller
     {
         Pedidos::where("id", $id)->delete();
         return "Exito";
+    }
+
+    public function OrdenCreada($id){
+        Pedidos::where("id", $id)->update(["orden_creada" => "Si"]);
+    }
+
+    public function MostrarForm(){
+
+        return view("pedidos.crearPublico", ["Productos" => Productos::all()]);
     }
 }

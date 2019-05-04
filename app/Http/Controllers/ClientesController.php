@@ -8,6 +8,7 @@ use App\Usuarios;
 use App\Pedidos;
 use App\Ordenes;
 use App\Notificaciones;
+use App\TipoNegocios;
 use View;
 
 class ClientesController extends Controller
@@ -24,9 +25,9 @@ class ClientesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {   $Negocios=TipoNegocios::all();
         $Clientes = Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
-        return view("clientes.clientes", ["Clientes" => $Clientes]);
+        return view("clientes.clientes", ["Clientes" => $Clientes, "Negocios" => $Negocios]);
     }
 
     /**

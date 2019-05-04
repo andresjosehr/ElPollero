@@ -48,7 +48,7 @@
                         <div class="media">
                            <div class="media-body text-xs-left">
                               <h3 class="deep-orange">{{count($OrdenesHoyCerradas)}}</h3>
-                              <span>Ordenes cerradas hoy</span>
+                              <span>Lista para despacho de hoy</span>
                            </div>
                            <div class="media-right media-middle">
                               <i class="icon-bag2 pink font-large-2 float-xs-rightt"></i>
@@ -62,7 +62,9 @@
          <!--/ stats -->
          @if(session()->get("rol")=="2")
          <!-- stats -->
-         <h2 style='padding: 20px;'>Metas de venta</h2>
+         @if (count($Metas)!=0)
+            <h2 style='padding: 20px;'>Metas de venta</h2>
+         @endif
          <div class="row">
             @foreach ($Metas as $Meta)
             <div class="col-xl-3 col-lg-6 col-xs-12">
@@ -116,7 +118,7 @@
                               @foreach ($Pedidos as $Pedido)
                               <tr id="pedido_{{$Pedido->id}}">
                                  <td>{{$Pedido->productos}}</td>
-                                 <td>@if ($Pedido->cantidad==null) Sin datos @else {{$Pedido->cantidad}} @endif</td>
+                                 <td>@if ($Pedido->cantidad==null) Sin datos @else {{$Pedido->cantidad}} {{$Pedido->tipo_cantidad}} @endif</td>
                                  <td>@if ($Pedido->tipo_pago==null) Sin datos @else {{$Pedido->tipo_pago}} @endif</td>
                                  <td>@if ($Pedido->especificaciones==null) Sin datos @else {{$Pedido->especificaciones}} @endif</td>
                                  <td>@if ($Pedido->observaciones==null) Sin datos @else {{$Pedido->observaciones}} @endif</td>
@@ -129,7 +131,7 @@
 									</label>
                                  </td>
                                  <td>
-                                    <!-- <a href="#" onclick=""><i class="icon-truck2 clientesIcon"></i></a> -->
+                                    <a href="#" onclick="createOrderAtPedido('{{$Pedido}}')"><i class="icon-truck2 clientesIcon"></i></a>
                                     <a href="#" onclick="editPedido('{{$Pedido}}')"><i class="icon-edit2 clientesIcon"></i></a>
                                     <a href="#" onclick="deletePedido('{{$Pedido->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                                  </td>
@@ -173,8 +175,83 @@
             </div>
          <!--/ project charts -->
       </div>
+
+      <!--/ project charts -->
+         <div class="row">
+            <div class="col-xl-12 col-lg-12">
+               <div class="card">
+                  <div class="card-body">
+                     <h2 style='padding: 20px;'>Clientes creados el dia de hoy</h2>
+
+                     <div id="pedidosListaTable" style="overflow-x: auto;">
+                        <table id="example4" class="display" style="width:100%">
+                           <thead>
+                              <tr>
+                                  <th>Nombre</th>
+                                  <th>Cedula</th>
+                                  <th>Direccion</th>
+                                  <th>Telefono</th>
+                                  <th>Correo</th>
+                                  <th>Productos</th>
+                                  <th>Negocios</th>
+                                  <th>Clientes</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @foreach ($ClientesHoy as $Cliente)
+                                  <tr id="cliente_{{$Cliente->id}}">
+                                      <td>{{$Cliente->nombre}}</td>
+                                      <td>@if ($Cliente->cedula==null) Sin datos @else {{$Cliente->cedula}} @endif</td>
+                                      <td>@if ($Cliente->direccion==null) Sin datos @else {{$Cliente->direccion}} @endif</td>
+                                      <td>@if ($Cliente->telefono==null) Sin datos @else {{$Cliente->telefono}} @endif</td>
+                                      <td>@if ($Cliente->correo==null) Sin datos @else {{$Cliente->correo}} @endif</td>
+                                      <td>@if ($Cliente->productos==null) Sin datos @else {{$Cliente->productos}} @endif</td>
+                                      <td>@if ($Cliente->tipo_negocio==null) Sin datos @else {{$Cliente->tipo_negocio}} @endif</td>
+                                      <td>@if ($Cliente->tipo_cliente==null) Sin datos @else {{$Cliente->tipo_cliente}} @endif</td>
+                                  </tr>
+                              @endforeach
+                              </tbody>
+                              </tfoot>
+                        </table>
+                     </div>
+                     <script>
+                        $(document).ready(function() {
+                            $('#example4').DataTable();
+                        } );
+                     </script>
+                     <style>
+                        #pedidosListaTable{
+                        padding: 20px;
+                        }
+                        .clientesIcon{
+                        font-size: 25px;
+                        }
+                     </style>
+                  </div>
+               </div>
+            </div>
+         <!--/ project charts -->
    </div>
 </div>
+
+
+
+
+
+
+
+
+
+<script>
+   var url = '{{Request::root()}}';
+   
+   $.ajaxSetup({
+     headers: {
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     }
+   });
+</script>
+
 <script>
 $(document).ready(function(){
        
@@ -182,5 +259,8 @@ $(document).ready(function(){
     $("#ordenesLista-A").load(url+"/ordenes/ordenesEscritorio",{Data: "Ejemplo"});
 });
 </script>
+
+
 @include("darSeguimiento");
+@include("createOrdenAtPedido");
 @include("footer");

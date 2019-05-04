@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6">
             <div class="form-group">
-                <label for="timesheetinput2">Cedula</label>
+                <label for="timesheetinput2">Cedula o RNC</label>
                 <div class="position-relative has-icon-left">
                     <input type="text" id="cedula" class="form-control" placeholder="Numero de cedula del cliente">
                     <div class="form-control-position">
@@ -84,9 +84,9 @@
                 <label for="timesheetinput2">Tipo de negocio</label>
                 <div class="position-relative has-icon-left">
                     <select type="email" id="tipo_negocio" class="form-control" placeholder="Correo del cliente">
-                    	<option>Colmado</option>
-                    	<option>Pollera</option>
-                    	<option>Restaurant</option>
+                        @foreach ($Negocios as $Negocio)
+                    	<option>{{$Negocio->nombre}}</option>
+                        @endforeach
                     </select>
                     <div class="form-control-position">
                         <i class="icon-briefcase4"></i>

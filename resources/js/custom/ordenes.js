@@ -6,7 +6,7 @@ window.guardarOrden=function(){
 	$("#crearOrdenPedido small").remove()
 	$("#crearOrdenPedido input, #crearOrdenPedido select").map(function(){
 		$("#crearOrdenPedido #"+this.id).removeClass("border-danger");
-		if (this.id!="especificaciones") {
+		if (this.id!="especificaciones" && this.id!="tipo_cantidad") {
 			if (this.value=="") {
 				$("#crearOrdenPedido #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
 				$("#crearOrdenPedido #"+this.id).addClass("border-danger")
@@ -16,7 +16,14 @@ window.guardarOrden=function(){
 		Data[this.id]=this.value;
 	})
 
+	Data.tipo_cantidad=""; var i=0;
+    $.each($("#crearOrdenPedido #tipo_cantidad:checked"), function(){            
+        Data.tipo_cantidad=$(this).val();
+        i++;
+    });
+
 	if (val==0) {
+
 		$.ajax({
 		    type: 'POST',
 		    url: url+"/ordenes",
@@ -29,8 +36,10 @@ window.guardarOrden=function(){
 
 		    		swal("¡Listo!", "Orden registrado satisfactoriamente!", "success");
 		    		$("#crearOrdenPedido input").map(function(){
-					$(this).val("");
-				})
+		    			if (this.id!="tipo_cantidad") {
+							$(this).val("");
+						}
+					})
 		    	}
 
 		    	$(".crearCliente_loading").hide(200, function(){
@@ -49,10 +58,25 @@ window.editOrder=function(orden){
 
 
 	for (var key in orden) {
-		$("#editarOrdenPedido #"+key).val(orden[key]);
+		if (key!="tipo_cantidad") {
+			$("#editarOrdenPedido #"+key).val(orden[key]);
+		}
+
 	}
+
+
+                $(".editarOrdenPedidoEditar .Libras").first().prop('checked', false);
+                $(".editarOrdenPedidoEditar .Unidades").first().prop('checked', false);
+
+                $(".editarOrdenPedidoEditar ."+orden.tipo_cantidad).first().prop('checked', true);               
+
+
+
+
 	$("#editarOrdenPedido").css("display", "block")
 	$(".cerrarOrdenUpdateDefin").css("display", "none")
+
+
 
 	$("#editarOrden_btn").click();
 
@@ -65,7 +89,7 @@ window.updaterOrden=function(){
 	$(".editarOrdenPedidoEditar input, .editarOrdenPedidoEditar select").map(function(){
 		if (i<6) {
 				$(".editarOrdenPedidoEditar #"+this.id).removeClass("border-danger");
-				if (this.id!="especificaciones") {
+				if (this.id!="especificaciones" && this.id!="tipo_cantidad") {
 					if (this.value=="") {
 						$(".editarOrdenPedidoEditar #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")
 						$(".editarOrdenPedidoEditar #"+this.id).addClass("border-danger")
@@ -77,6 +101,11 @@ window.updaterOrden=function(){
 			}
 		i++;
 	})
+
+	$.each($(".editarOrdenPedidoEditar .tipo_cantidad:checked"), function(){            
+        Data.tipo_cantidad=$(this).val();
+        i++;
+    });
 
 	if (val==0) {
 		$(".editarOrden_btn").hide(200, function(){
@@ -94,9 +123,6 @@ window.updaterOrden=function(){
 		    		 $("#ordenesLista-B").load(url+"/ordenes/listaUpdate", {Data: "Ejemplo"});
 
 		    		swal("¡Listo!", "Orden actualizada satisfactoriamente!", "success");
-		    		$("#editarOrdenPedido input").map(function(){
-					$(this).val("");
-				})
 		    	}
 
 		    	$(".editarOrden_loading").hide(200, function(){
@@ -111,7 +137,7 @@ window.updaterOrden=function(){
 
 
 window.deleteOrder=function(id){
-	swal("Espera!", "¿Estas seguro de eliminar esta orden?", "warning")
+	swal({title: "Espera!", text: "¿Estas seguro de eliminar esta orden?", icon: "warning", buttons: true})
 	.then((value) => {
 	  $("#orden_"+id).fadeOut("slow", function(){
 	  	$("#orden_"+id).remove();
@@ -122,7 +148,6 @@ window.deleteOrder=function(id){
 			url: url+"/ordenes/"+id,
 			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 	    success: function(result){
-	    	console.log(result);
 	    }
 
 	});
@@ -150,7 +175,6 @@ window.cerrrarOrdenUpdate=function(){
 	$(".cerrarOrdenUpdateDefin input, .cerrarOrdenUpdateDefin select").map(function(){
 		if (i<5) {
 				$(".cerrarOrdenUpdateDefin #"+this.id).removeClass("border-danger");
-					console.log(this)
 					if (this.value=="") {
 
 						$(".cerrarOrdenUpdateDefin #"+this.id).after("<small style='color:red'>Debes completar este campo</small>")

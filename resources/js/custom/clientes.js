@@ -52,8 +52,13 @@ window.guardarCliente=function(){
 
 
 window.deleteClient=function(id){
-	swal("Espera!", "¿Estas seguro de eliminar este cliente? Todos los registro asociados a este cliente tambien seran eliminados", "warning")
+	swal({ title: "Espera!",
+		    text: "¿Estas seguro de eliminar este cliente? Todos los registro asociados a este cliente tambien seran eliminados",
+		    icon: "warning", 
+		    buttons: true
+		})
 	.then((value) => {
+		if (value) {
 	  $("#cliente_"+id).fadeOut("slow", function(){
 	  	$("#cliente_"+id).remove();
 	  	swal("¡Listo!", "Cliente Eliminado satisfactoriamente", "success")
@@ -67,6 +72,7 @@ window.deleteClient=function(id){
 	    }
 
 	});
+	  }
 
 	});
 }

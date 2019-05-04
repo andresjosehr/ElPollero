@@ -38,6 +38,11 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <!-- END Custom CSS-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
+
   </head>
   <body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
 
@@ -132,6 +137,8 @@
           <li class="nav-item clientes_sidebar"><a href="metas"><i class="icon-flag2"></i><span data-i18n="nav.dash.main" class="menu-title">Metas de Vendedores</span></a>
           </li>
           <li class="nav-item clientes_sidebar"><a href="informes"><i class="icon-libreoffice"></i><span data-i18n="nav.dash.main" class="menu-title">Informe de vendedores</span></a>
+          </li>
+          <li class="nav-item clientes_sidebar"><a href="ventas"><i class="icon-stats-dots"></i><span data-i18n="nav.dash.main" class="menu-title">Informe de ventas</span></a>
           </li>
           @endif
         </ul>

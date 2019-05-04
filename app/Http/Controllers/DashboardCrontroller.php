@@ -9,6 +9,7 @@ use App\Usuarios;
 use App\Clientes;
 use App\Metas;
 use App\Notificaciones;
+use App\Productos;
 use DateTime;
 use Carbon\Carbon;
 
@@ -36,15 +37,14 @@ class DashboardCrontroller extends Controller
         
 
         setlocale(LC_ALL,"es_ES");
-        $string = date('d/m/Y', strtotime(date("d/m/Y") . ' +1 day'));
+        $string = date('d/m/Y', strtotime(date("d/m/Y") . ' +2 day'));
         $date = DateTime::createFromFormat("d/m/Y", $string);
         $CurrentDay = ucwords(strftime("%A",$date->getTimestamp()));
 
         // return $CurrentDay;
-
         $Pedidos = Pedidos::whereHas("clientes", function($q){
                                         $q->whereIn("id_usuario", self::ConsultaPorRol());
-                                    })->with("clientes")->where("periodicidad", "like", "%".$CurrentDay."%")->get();
+                                    })->with("clientes")->where("periodicidad", "like", "%".$CurrentDay."%")->where("orden_creada", "No")->get();
 
         $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
 
@@ -57,8 +57,10 @@ class DashboardCrontroller extends Controller
         $OrdenesHoyCerradas = Ordenes::whereHas("clientes", function($q){
             $q->whereIn("id_usuario", self::ConsultaPorRol());
         })->with("clientes")->where("fecha_hora_entrega", "like", Carbon::today()->format('Y-m-d')."%")->where("estado", "Cerrada")->get();
+
+        $ClientesHoy=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->where("created_at", "like", Carbon::today()->format('Y-m-d')."%")->get();
         
-        return view('escritorio', ["Pedidos" => $Pedidos, "Metas" => $Metas, "OrdenesHoyAbiertas" => $OrdenesHoyAbiertas, "OrdenesHoyCerradas" => $OrdenesHoyCerradas]);
+        return view('escritorio', ["Pedidos" => $Pedidos, "Metas" => $Metas, "OrdenesHoyAbiertas" => $OrdenesHoyAbiertas, "OrdenesHoyCerradas" => $OrdenesHoyCerradas, "ClientesHoy" => $ClientesHoy, "Productos" => Productos::all(), "Clientes" => $Clientes]);
     }
 
     /**

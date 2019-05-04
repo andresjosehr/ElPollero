@@ -1,9 +1,6 @@
-<!-- Button trigger modal -->
-<button type="button" style="display: none" id="editarpedido_btn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-Launch demo modal
-</button>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Large modal -->
+<a href="#myModal2" data-toggle="modal" id='modalPedido'></a>
+<div id="myModal2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
@@ -14,26 +11,60 @@ Launch demo modal
          </div>
          <div class="modal-body">
             <div id="editarPedido">
-                <input type="hidden" id="id">
+               <input type="hidden" id="id">
                <div class="form-body">
                   <div class="form-group">
                      <div class="col-md-6">
                         <label for="timesheetinput1">Productos</label>
                         <div class="position-relative has-icon-left nombre_parent">
-                           <input type="text" id="productos" class="form-control" placeholder="Productos asociados a la orden">
+                           <select id="productos" class="form-control">
+                              @foreach ($Productos as $Producto)
+                              <option value="{{$Producto->nombre}}">{{$Producto->nombre}}</option>
+                              @endforeach
+                           </select>
                            <div class="form-control-position">
                               <i class="icon-bag"></i>
                            </div>
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-2">
                      <div class="form-group">
                         <label for="timesheetinput2">Cantidad</label>
                         <div class="position-relative has-icon-left">
                            <input type="text" id="cantidad" class="form-control" placeholder="Cantidad total de la orden">
                            <div class="form-control-position">
                               <i class="icon-ios-keypad"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div style="display: flex;padding-top: 15px;">
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <div class="position-relative has-icon-left">
+                              <label> </label>
+                              <div class="input-group">
+                                 <label class="display-inline-block custom-control custom-radio ml-1">
+                                 <input type="radio" name="customer1" id='tipo_cantidad' value="Libras" class="custom-control-input Libras tipo_cantidad">
+                                 <span class="custom-control-indicator"></span>
+                                 <span class="custom-control-description ml-0">Lib</span>
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">
+                           <div class="position-relative has-icon-left">
+                              <label> </label>
+                              <div class="input-group" style="margin-left: 22px">
+                                 <label class="display-inline-block custom-control custom-radio ml-1">
+                                 <input type="radio" name="customer1" id='tipo_cantidad' value="Unidades" class="custom-control-input Unidades tipo_cantidad">
+                                 <span class="custom-control-indicator"></span>
+                                 <span class="custom-control-description ml-0">Uni</span>
+                                 </label>
+                              </div>
                            </div>
                         </div>
                      </div>

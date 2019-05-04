@@ -52,6 +52,15 @@ Route::group(['middleware' => ['VerificarSesion']], function () {
 	Route::post("email-clientes", "ClientesController@emailCliente2");
 
 
+	Route::resource('TipoNegocios', "TipoNegociosController");
+	Route::resource('Productos', "ProductosController");
+
+	Route::post('OrdenCreada/{id}', "PedidosController@OrdenCreada");
+
+
+	Route::resource('ventas', "VentasController");
+
+
 
 });
 
@@ -72,9 +81,7 @@ Route::post('usuarios/createSeller', "LoginRegisterResetController@createSeller"
 Route::get('registro/', "LoginRegisterResetController@showFormSeller");
 Route::get('registro/{codigo}', "UsuariosController@showFormAdmin");
 
-Route::get("registrar-pedido-public", function(){
-	return view("pedidos.crearPublico");
-});
+Route::get("registrar-pedido-public", "PedidosController@MostrarForm");
 
 Route::post("registrar-pedido-public2", "ClientesController@registrarPedidoPublic");
 
