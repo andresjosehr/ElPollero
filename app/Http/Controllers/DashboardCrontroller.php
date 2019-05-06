@@ -28,6 +28,14 @@ class DashboardCrontroller extends Controller
         return $Consulta;
     }
 
+    public function getDay()
+    {
+        setlocale(LC_ALL,"es_ES");
+        $string = date('d/m/Y', strtotime(date("d/m/Y") . ' +1 months'));
+        $date = DateTime::createFromFormat("m/d/Y", $string);
+        $CurrentDay = ucwords(strftime("%A",$date->getTimestamp()));
+        return $CurrentDay;
+    }
 
     public function index()
     {
@@ -36,14 +44,13 @@ class DashboardCrontroller extends Controller
 
         
 
-        setlocale(LC_ALL,"es_ES");
-        $string = date('d/m/Y', strtotime(date("d/m/Y") . ' +1 months'));
-        $date = DateTime::createFromFormat("m/d/Y", $string);
-        $CurrentDay = ucwords(strftime("%A",$date->getTimestamp()));
+    
 
-        $Pedidos = Pedidos::whereHas("clientes", function($q){
+       $Pedidos = Pedidos::whereHas("clientes", function($q){
                                         $q->whereIn("id_usuario", self::ConsultaPorRol());
-                                    })->with("clientes")->where("periodicidad", "like", "%".$CurrentDay."%")->orWhere("periodicidad", $CurrentDay)->where("orden_creada", "No")->get();
+                                    })->with("clientes")->where("orden_creada", "No")->where(function($q){
+                                        $q->where("periodicidad", "like", "%".self::getDay()."%")->orWhere("periodicidad", self::getDay());
+                                    })->get();
 
         $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
 

@@ -257,7 +257,7 @@
 <script>
 $(document).ready(function(){
        
-
+    PedidoLlamado();
     $("#ordenesLista-A").load(url+"/ordenes/ordenesEscritorio",{Data: "Ejemplo"});
 });
 </script>

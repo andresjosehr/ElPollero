@@ -71,7 +71,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-12">
                         <div class="form-group">
                            <label for="timesheetinput2">Especificaciones</label>
                            <div class="position-relative has-icon-left">
@@ -82,11 +82,11 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-12">
                         <div class="form-group">
                            <label for="timesheetinput2">Fecha y hora para entregar</label>
                            <div class="position-relative has-icon-left">
-                              <input type="datetime-local" id="fecha_hora_entrega" class="form-control" placeholder="Fecha y hora pautada para la entrega del producto">
+                              <input type="text" class="datetimepicker" id="fecha_hora_entrega">
                               <div class="form-control-position">
                                  <i class="icon-calendar"></i>
                               </div>
@@ -112,3 +112,20 @@
       </div>
    </div>
 </div>
+
+
+<script>
+   $('#crearOrdenAtPedido .datetimepicker').datetimepicker({
+      inline:true,
+      step: 30,
+      formatTime:"h:i a",
+      onChangeDateTime:  function (ct,$i) {
+
+         var Fechita= new Date(ct);
+         var Fecha=moment(Fechita).format('YYYY-MM-DD h:mm a');
+
+        $('#crearOrdenAtPedido #fecha_hora_entrega').val(Fecha);
+
+     }
+   });
+</script>

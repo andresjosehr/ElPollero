@@ -1069,6 +1069,7 @@ window.guardarPedido = function () {
   });
 
   if (val == 0) {
+    OrdenCreada(Data.id);
     $("#crearPedido .crearCliente_btn").hide(200, function () {
       $("#crearPedido .crearCliente_loading").show(200);
     });

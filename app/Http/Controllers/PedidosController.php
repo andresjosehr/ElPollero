@@ -31,8 +31,9 @@ class PedidosController extends Controller
         
         $Pedidos = Pedidos::whereHas("clientes", function($q){
             $q->whereIn("id_usuario", self::ConsultaPorRol());
-        })->with("clientes")->get();
-Productos::all();
+        })->with("clientes")->where("orden_creada", "No")->get();
+
+        Productos::all();
 
         $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
 
