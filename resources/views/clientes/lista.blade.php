@@ -32,8 +32,8 @@
                     <td>@if ($Cliente->tipo_cliente==null) Sin datos @else {{$Cliente->tipo_cliente}} @endif</td>
                     <td>
                         {{-- <a href="#" onclick=""><i class="icon-truck2 clientesIcon"></i></a> --}}
-                        <a href="#" onclick="editClient('{{$Cliente}}')"><i class="icon-edit2 clientesIcon"></i></a>
-                        <a href="#" onclick="deleteClient('{{$Cliente->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                        <a onclick="editClient('{{$Cliente}}')"><i class="icon-edit2 clientesIcon"></i></a>
+                        <a onclick="deleteClient('{{$Cliente->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                     </td>
                 </tr>
             @endforeach

@@ -43,9 +43,9 @@
                         <td>@if ($Orden->especificaciones==null) Sin datos @else {{$Orden->especificaciones}} @endif</td>
                         <td>{{$Orden->Clientes->nombre}}</td>
                         <td>
-                            <a href="#" onclick="cerrarOrder('{{$Orden->id}}')"><i class="icon-cash clientesIcon"></i></a>
-                            <a href="#" onclick="editOrder('{{$Orden}}')"><i class="icon-edit2 clientesIcon"></i></a>
-                            <a href="#" onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                            <a onclick="cerrarOrder('{{$Orden->id}}')"><i class="icon-cash clientesIcon"></i></a>
+                            <a onclick="editOrder('{{$Orden}}')"><i class="icon-edit2 clientesIcon"></i></a>
+                            <a onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                         </td>
                     </tr>
                 @endif
@@ -128,7 +128,7 @@
                         <td>{{$Orden->Clientes->nombre}}</td>
                         <td>@if ($Orden->satisfaccion==null) Sin datos @else {{$Orden->satisfaccion}} @endif</td>
                         <td>
-                            <a href="#" onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                            <a onclick="deleteOrder('{{$Orden->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                         </td>
                     </tr>
                 @endif

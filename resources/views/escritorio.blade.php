@@ -1,4 +1,6 @@
 @include("general");
+@include("darSeguimiento");
+@include("createOrdenAtPedido");
 <div class="app-content content container-fluid">
    <div class="content-wrapper">
       <div class="content-header row">
@@ -73,7 +75,7 @@
                      <div class="card-block">
                         <div class="media">
                            <div class="media-body text-xs-left">
-                              <h3 class="pink">{{$Meta->Cantidad}}</h3>
+                              <h3 class="pink">{{$Meta->cantidad}}</h3>
                               <span>{{$Meta->tipo}}</span>
                            </div>
                            <div class="media-right media-middle">
@@ -131,9 +133,9 @@
 									</label>
                                  </td>
                                  <td>
-                                    <a href="#" onclick="createOrderAtPedido('{{$Pedido}}')"><i class="icon-truck2 clientesIcon"></i></a>
-                                    <a href="#" onclick="editPedido('{{$Pedido}}')"><i class="icon-edit2 clientesIcon"></i></a>
-                                    <a href="#" onclick="deletePedido('{{$Pedido->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                                    <a onclick="createOrderAtPedido('{{$Pedido}}')"><i class="icon-truck2 clientesIcon"></i></a>
+                                    <a onclick="editPedido('{{$Pedido}}')"><i class="icon-edit2 clientesIcon"></i></a>
+                                    <a onclick="deletePedido('{{$Pedido->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                                  </td>
                               </tr>
                               @endforeach
@@ -261,6 +263,5 @@ $(document).ready(function(){
 </script>
 
 
-@include("darSeguimiento");
-@include("createOrdenAtPedido");
+
 @include("footer");

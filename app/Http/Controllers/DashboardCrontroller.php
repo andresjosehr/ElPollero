@@ -37,14 +37,13 @@ class DashboardCrontroller extends Controller
         
 
         setlocale(LC_ALL,"es_ES");
-        $string = date('d/m/Y', strtotime(date("d/m/Y") . ' +2 day'));
-        $date = DateTime::createFromFormat("d/m/Y", $string);
+        $string = date('d/m/Y', strtotime(date("d/m/Y") . ' +1 months'));
+        $date = DateTime::createFromFormat("m/d/Y", $string);
         $CurrentDay = ucwords(strftime("%A",$date->getTimestamp()));
 
-        // return $CurrentDay;
         $Pedidos = Pedidos::whereHas("clientes", function($q){
                                         $q->whereIn("id_usuario", self::ConsultaPorRol());
-                                    })->with("clientes")->where("periodicidad", "like", "%".$CurrentDay."%")->where("orden_creada", "No")->get();
+                                    })->with("clientes")->where("periodicidad", "like", "%".$CurrentDay."%")->orWhere("periodicidad", $CurrentDay)->where("orden_creada", "No")->get();
 
         $Clientes=Clientes::whereIn("id_usuario", self::ConsultaPorRol())->get();
 

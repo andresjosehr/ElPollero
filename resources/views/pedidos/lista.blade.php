@@ -31,9 +31,9 @@
                     <td>@if ($Pedido->observaciones==null) Sin datos @else {{$Pedido->observaciones}} @endif</td>
                     <td>{{$Pedido->clientes->nombre}}</td>
                     <td>
-                        <a href="#" onclick="createOrderAtPedido('{{$Pedido}}')"><i class="icon-truck2 clientesIcon"></i></a>
-                        <a href="#" onclick="editPedido('{{$Pedido}}')"><i class="icon-edit2 clientesIcon"></i></a>
-                        <a href="#" onclick="deletePedido('{{$Pedido->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
+                        <a onclick="createOrderAtPedido('{{$Pedido}}')"><i class="icon-truck2 clientesIcon"></i></a>
+                        <a onclick="editPedido('{{$Pedido}}')"><i class="icon-edit2 clientesIcon"></i></a>
+                        <a onclick="deletePedido('{{$Pedido->id}}')"><i class="icon-exclamation clientesIcon"></i></a>
                     </td>
                 </tr>
             @endforeach
